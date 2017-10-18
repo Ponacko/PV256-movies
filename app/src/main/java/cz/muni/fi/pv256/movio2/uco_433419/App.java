@@ -9,7 +9,16 @@ import android.os.StrictMode;
 
 public class App extends Application {
 
-    public static void activateStrictMode(){
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        if (BuildConfig.DEBUG) {
+            activateStrictMode();
+        }
+    }
+
+    private void activateStrictMode(){
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectDiskReads()
                     .detectDiskWrites()
