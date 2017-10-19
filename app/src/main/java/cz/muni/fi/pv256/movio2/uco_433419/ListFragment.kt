@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.fragment_list.*
 
 
 /**
@@ -34,10 +35,8 @@ class ListFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_list, container, false)
-    }
+                              savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
+            inflater!!.inflate(R.layout.fragment_list, container, false)
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
@@ -53,6 +52,15 @@ class ListFragment : Fragment() {
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val filmList = arrayListOf<Film>(Film("Star Wars", 1516, 5.5f, "coverPath", "backdrop"),
+                Film("Lord of the Rings", 1516, 5.5f, "coverPath", "backdrop"),
+                Film("Harry Potter", 1516, 5.5f, "coverPath", "backdrop"))
+        val adapter = FilmAdapter(filmList)
+        filmRecycler.adapter = adapter
     }
 
     override fun onDetach() {
