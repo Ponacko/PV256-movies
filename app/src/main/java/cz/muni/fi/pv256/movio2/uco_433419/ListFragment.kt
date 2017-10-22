@@ -1,9 +1,12 @@
 package cz.muni.fi.pv256.movio2.uco_433419
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,11 +59,28 @@ class ListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val filmList = arrayListOf<Film>(Film("Star Wars", 1516, 5.5f, "coverPath", "backdrop"),
+        /*
+        val filmList = arrayListOf(Film("Star Wars", 1516, 5.5f, "coverPath", "backdrop"),
                 Film("Lord of the Rings", 1516, 5.5f, "coverPath", "backdrop"),
                 Film("Harry Potter", 1516, 5.5f, "coverPath", "backdrop"))
         val adapter = FilmAdapter(filmList)
-        filmRecycler.adapter = adapter
+        filmRecycler.layoutManager = LinearLayoutManager(context)
+        filmRecycler.adapter = adapter*/
+        movieButton1.setOnClickListener(View.OnClickListener {
+            startFilmDetailActivity(Film("Star Wars", 1516, 5.5f, "coverPath", "backdrop"))
+            })
+        movieButton2.setOnClickListener(View.OnClickListener {
+            startFilmDetailActivity(Film("Lord of the Rings", 1516, 5.5f, "coverPath", "backdrop"))
+        })
+        movieButton3.setOnClickListener(View.OnClickListener {
+            startFilmDetailActivity(Film("Harry Potter", 1516, 5.5f, "coverPath", "backdrop"))
+        })
+    }
+
+    fun startFilmDetailActivity(film : Film){
+        val intent = Intent(activity,DetailActivity::class.java)
+        intent.putExtra("FILM", film)
+        startActivity(intent)
     }
 
     override fun onDetach() {

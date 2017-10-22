@@ -13,7 +13,5 @@ class MainActivity : AppCompatActivity(), ListFragment.OnFragmentInteractionList
         setContentView(R.layout.activity_main)
     }
 
-    override fun onFragmentInteraction(uri: Uri) {
-
-    }
+    override fun onFragmentInteraction(uri: Uri) = Unit
 }

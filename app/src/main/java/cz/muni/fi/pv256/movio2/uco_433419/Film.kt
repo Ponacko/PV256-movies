@@ -6,10 +6,9 @@ import android.os.Parcelable
 /**
  * Created by Tomas on 19. 10. 2017.
  */
-class Film(private var title: String, private var releaseDate: Long, private var popularity: Float,
-           private var coverPath: String, private var backdrop: String) : Parcelable {
+class Film( var title: String, var releaseDate: Long, var popularity: Float,
+           var coverPath: String, var backdrop: String) : Parcelable {
 
-    fun getTitle(): String = title
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
