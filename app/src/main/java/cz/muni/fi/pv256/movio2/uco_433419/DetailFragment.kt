@@ -7,8 +7,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import cz.muni.fi.pv256.movio2.uco_433419.R.id.detailText
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 
@@ -59,7 +57,7 @@ class DetailFragment : Fragment() {
     }
 
     fun setFilmText(film: Film){
-        detailText.text = film.title
+        titleText.text = "${film.title} (${film.releaseDate})"
     }
 
     override fun onDetach() {

@@ -5,12 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -81,7 +78,7 @@ class ListFragment : Fragment() {
     }
 
     private fun startFilmDetailActivity(film : Film){
-        if (detailFragmentTablet != null && (detailFragmentTablet as DetailFragment).detailText != null){
+        if (detailFragmentTablet != null && (detailFragmentTablet as DetailFragment).titleText != null){
             val detail = detailFragmentTablet as DetailFragment
             detail.setFilmText(film)
         }
