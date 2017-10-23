@@ -25,7 +25,7 @@
         android:layout_width="0dp"
         android:name="cz.muni.fi.pv256.movio2.uco_433419.DetailFragment"
         tools:layout="@layout/fragment_detail"
-        android:id="@+id/detailFragment"
+        android:id="@+id/detailFragmentTablet"
         tools:layout_editor_absoluteY="8dp"
         tools:layout_editor_absoluteX="8dp"/>
 </LinearLayout>

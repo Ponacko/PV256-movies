@@ -18,6 +18,6 @@ class FilmViewHolder(var filmView: TextView) : RecyclerView.ViewHolder(filmView)
     }
 
     override fun onClick(v: View?) {
-        Log.d("RecyclerView", "CLICK!")
+        //Log.d("RecyclerView", "CLICK!")
     }
 }
