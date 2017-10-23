@@ -1,0 +1,36 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:orientation="vertical"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 tools:context="cz.muni.fi.pv256.movio2.uco_433419.DetailFragment">
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/filmImage"
+        android:src="@drawable/ic_add_black_24dp"
+        app:layout_anchorGravity="bottom|right|end"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/filmImage"
+            android:layout_gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/colorPrimary"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:padding="20dp"
+            android:text="Film title"/>
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
