@@ -17,7 +17,7 @@ class FilmAdapter(private val dataSet: ArrayList<ListItem>, private val fragment
             (holder?.view as TextView).text = dataSet[position].title
         }
         else {
-            (holder?.view as FilmView).setFilmNameAndImage(dataSet[position].title, (dataSet[position] as Film).coverPath)
+            (holder?.view as FilmView).setFilmProperties(dataSet[position] as Film)
         }
 
     }
