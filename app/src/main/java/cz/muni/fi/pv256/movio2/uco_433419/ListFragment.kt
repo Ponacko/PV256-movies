@@ -44,14 +44,20 @@ class ListFragment : android.support.v4.app.Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+
+
         val filmList = arrayListOf(ListCategory("Sci-fi"),
                 Film("Star Wars", 1977, 3.5f, "sw", "backdrop"),
                 ListCategory("Fantasy"),
                 Film("Lord of the Rings", 2001, 3.0f, "lotr", "backdrop"),
                 Film("Harry Potter", 2001, 4.1f, "hp1", "backdrop"))
         val adapter = FilmAdapter(filmList, this)
-        filmRecycler.layoutManager = LinearLayoutManager(context)
-        filmRecycler.adapter = adapter
+        list.layoutManager = LinearLayoutManager(context)
+        if (filmList.isEmpty()){
+            list.visibility = View.GONE
+            empty.visibility = View.VISIBLE
+        }
+        list.adapter = adapter
     }
 
     override fun onDetach() {
