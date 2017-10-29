@@ -3,10 +3,7 @@ package cz.muni.fi.pv256.movio2.uco_433419
 import android.os.Parcel
 import android.os.Parcelable
 
-/**
- * Created by Tomas on 19. 10. 2017.
- */
-class Film( var title: String, var releaseDate: Long, var popularity: Float,
+data class Film( var title: String, var releaseDate: Long, var popularity: Float,
            var coverPath: String, var backdrop: String) : Parcelable {
 
 

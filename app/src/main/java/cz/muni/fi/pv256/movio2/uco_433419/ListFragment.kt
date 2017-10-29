@@ -5,6 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,32 +24,13 @@ import kotlinx.android.synthetic.main.fragment_list.*
  * Use the [ListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ListFragment : Fragment() {
-
-    // TODO: Rename and change types of parameters
-    private var mParam1: String? = null
-    private var mParam2: String? = null
+class ListFragment : android.support.v4.app.Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mParam1 = arguments.getString(ARG_PARAM1)
-            mParam2 = arguments.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
             inflater!!.inflate(R.layout.fragment_list, container, false)
-
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        if (mListener != null) {
-            mListener!!.onFragmentInteraction(uri)
-        }
-    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -59,13 +43,14 @@ class ListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        /*
+
         val filmList = arrayListOf(Film("Star Wars", 1516, 5.5f, "coverPath", "backdrop"),
                 Film("Lord of the Rings", 1516, 5.5f, "coverPath", "backdrop"),
                 Film("Harry Potter", 1516, 5.5f, "coverPath", "backdrop"))
-        val adapter = FilmAdapter(filmList)
+        val adapter = FilmAdapter(filmList, this)
         filmRecycler.layoutManager = LinearLayoutManager(context)
-        filmRecycler.adapter = adapter*/
+        filmRecycler.adapter = adapter
+        /*
         movieButton1.setOnClickListener(View.OnClickListener {
             startFilmDetailActivity(Film("Star Wars", 1516, 5.5f, "coverPath", "backdrop"))
             })
@@ -75,23 +60,23 @@ class ListFragment : Fragment() {
         movieButton3.setOnClickListener(View.OnClickListener {
             startFilmDetailActivity(Film("Harry Potter", 1516, 5.5f, "coverPath", "backdrop"))
         })
-    }
-
-    private fun startFilmDetailActivity(film : Film){
-        if (detailFragmentTablet != null && (detailFragmentTablet as DetailFragment).titleText != null){
-            val detail = detailFragmentTablet as DetailFragment
-            detail.setFilmText(film)
-        }
-        else {
-            val intent = Intent(activity,DetailActivity::class.java)
-            intent.putExtra("FILM", film)
-            startActivity(intent)
-        }
+        */
     }
 
     override fun onDetach() {
         super.onDetach()
         mListener = null
+    }
+
+    fun startFilmDetailActivity(film : Film) {
+        if (detailFragmentTablet != null && (detailFragmentTablet as DetailFragment).titleText != null) {
+            val detail = detailFragmentTablet as DetailFragment
+            detail.setFilmText(film)
+        } else {
+            val intent = Intent(activity, DetailActivity::class.java)
+            intent.putExtra("FILM", film)
+            startActivity(intent)
+        }
     }
 
     /**
