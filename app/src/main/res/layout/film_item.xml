@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<TextView
-    android:id="@+id/filmName"
+<cz.muni.fi.pv256.movio2.uco_433419.FilmView
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/filmView"
+    android:layout_height="200dp"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:padding="10dp"
-    android:layout_margin="10dp"
-    android:textSize="20sp"
-    xmlns:android="http://schemas.android.com/apk/res/android"/>
+    android:background="@color/colorPrimary"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:src="@drawable/hp1"
+               android:scaleType="centerCrop"
+               android:layout_height="match_parent"
+               android:layout_width="match_parent"
+               android:id="@+id/filmImage"
+               android:contentDescription="description"/>
+
+    <TextView
+        android:textColor="#fff"
+        android:id="@+id/filmName"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:text="Nazov filmu"
+        tools:text="Nazov filmu"/>
+</cz.muni.fi.pv256.movio2.uco_433419.FilmView>

@@ -12,15 +12,30 @@ class FilmAdapter(private val dataSet: ArrayList<ListItem>, private val fragment
     private val TYPE_CATEGORY = 1
 
     override fun onBindViewHolder(holder: FilmViewHolder?, position: Int) {
-        holder?.filmView?.text = dataSet[position].title
+        val viewType = getItemViewType(position)
+        if (viewType == TYPE_CATEGORY){
+            (holder?.view as TextView).text = dataSet[position].title
+        }
+        else {
+            (holder?.view as FilmView).setFilmNameAndImage(dataSet[position].title, (dataSet[position] as Film).coverPath)
+        }
+
     }
 
     override fun getItemCount(): Int = dataSet.count()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): FilmViewHolder {
-        val v = LayoutInflater.from(parent?.context)
-                .inflate(R.layout.film_item, parent, false) as TextView
-        return FilmViewHolder(v)
+        return if (viewType == TYPE_CATEGORY){
+            val v = LayoutInflater.from(parent?.context)
+                    .inflate(R.layout.category_item, parent, false) as TextView
+            FilmViewHolder(v)
+        }
+        else {
+            val v = LayoutInflater.from(parent?.context)
+                    .inflate(R.layout.film_item, parent, false) as FilmView
+            FilmViewHolder(v)
+        }
+
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -30,10 +45,10 @@ class FilmAdapter(private val dataSet: ArrayList<ListItem>, private val fragment
             TYPE_CATEGORY
     }
 
-    inner class FilmViewHolder(var filmView: TextView) : RecyclerView.ViewHolder(filmView), View.OnClickListener {
+    inner class FilmViewHolder(var view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         init {
-            filmView.setOnClickListener(this)
+            view.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {

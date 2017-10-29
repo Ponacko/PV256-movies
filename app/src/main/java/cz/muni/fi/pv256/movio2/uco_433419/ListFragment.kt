@@ -45,24 +45,13 @@ class ListFragment : android.support.v4.app.Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         val filmList = arrayListOf(ListCategory("Sci-fi"),
-                Film("Star Wars", 1516, 5.5f, "coverPath", "backdrop"),
+                Film("Star Wars", 1516, 5.5f, "sw", "backdrop"),
                 ListCategory("Fantasy"),
-                Film("Lord of the Rings", 1516, 5.5f, "coverPath", "backdrop"),
-                Film("Harry Potter", 1516, 5.5f, "coverPath", "backdrop"))
+                Film("Lord of the Rings", 1516, 5.5f, "lotr", "backdrop"),
+                Film("Harry Potter", 1516, 5.5f, "hp1", "backdrop"))
         val adapter = FilmAdapter(filmList, this)
         filmRecycler.layoutManager = LinearLayoutManager(context)
         filmRecycler.adapter = adapter
-        /*
-        movieButton1.setOnClickListener(View.OnClickListener {
-            startFilmDetailActivity(Film("Star Wars", 1516, 5.5f, "coverPath", "backdrop"))
-            })
-        movieButton2.setOnClickListener(View.OnClickListener {
-            startFilmDetailActivity(Film("Lord of the Rings", 1516, 5.5f, "coverPath", "backdrop"))
-        })
-        movieButton3.setOnClickListener(View.OnClickListener {
-            startFilmDetailActivity(Film("Harry Potter", 1516, 5.5f, "coverPath", "backdrop"))
-        })
-        */
     }
 
     override fun onDetach() {
