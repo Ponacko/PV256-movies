@@ -3,8 +3,8 @@ package cz.muni.fi.pv256.movio2.uco_433419
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Film( var title: String, var releaseDate: Long, var popularity: Float,
-           var coverPath: String, var backdrop: String) : Parcelable {
+class Film (title: String, var releaseDate: Long, var popularity: Float,
+           var coverPath: String, var backdrop: String) : ListItem(title), Parcelable {
 
 
     constructor(parcel: Parcel) : this(

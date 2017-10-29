@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 
-class FilmAdapter(private val dataSet: ArrayList<Film>, var fragment: ListFragment)  : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {
+class FilmAdapter(private val dataSet: ArrayList<ListItem>, private val fragment: ListFragment)  : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {
+    private val TYPE_FILM = 0
+    private val TYPE_CATEGORY = 1
 
     override fun onBindViewHolder(holder: FilmViewHolder?, position: Int) {
         holder?.filmView?.text = dataSet[position].title
@@ -21,7 +23,12 @@ class FilmAdapter(private val dataSet: ArrayList<Film>, var fragment: ListFragme
         return FilmViewHolder(v)
     }
 
-
+    override fun getItemViewType(position: Int): Int {
+        return if (dataSet[position] is Film)
+            TYPE_FILM
+        else
+            TYPE_CATEGORY
+    }
 
     inner class FilmViewHolder(var filmView: TextView) : RecyclerView.ViewHolder(filmView), View.OnClickListener {
 
@@ -29,6 +36,10 @@ class FilmAdapter(private val dataSet: ArrayList<Film>, var fragment: ListFragme
             filmView.setOnClickListener(this)
         }
 
-        override fun onClick(v: View?) = fragment.startFilmDetailActivity(dataSet[layoutPosition])
+        override fun onClick(v: View?) {
+            if (getItemViewType(layoutPosition) == TYPE_FILM){
+                fragment.startFilmDetailActivity(dataSet[layoutPosition] as Film)
+            }
+        }
     }
 }

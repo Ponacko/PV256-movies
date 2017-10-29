@@ -44,7 +44,9 @@ class ListFragment : android.support.v4.app.Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val filmList = arrayListOf(Film("Star Wars", 1516, 5.5f, "coverPath", "backdrop"),
+        val filmList = arrayListOf(ListCategory("Sci-fi"),
+                Film("Star Wars", 1516, 5.5f, "coverPath", "backdrop"),
+                ListCategory("Fantasy"),
                 Film("Lord of the Rings", 1516, 5.5f, "coverPath", "backdrop"),
                 Film("Harry Potter", 1516, 5.5f, "coverPath", "backdrop"))
         val adapter = FilmAdapter(filmList, this)
