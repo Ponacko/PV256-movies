@@ -2,6 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+def VERSION_MAJOR = 0
+def VERSION_MINOR = 1
+def VERSION_PATCH = 0
+def VERSION_BUILD = 0
+
 android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
@@ -9,8 +14,9 @@ android {
         applicationId "cz.muni.fi.pv256.movio2.uco_433419"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 1
-        versionName getVersionName()
+        resConfigs "sk", "en"
+        versionCode VERSION_MAJOR * 10000 + VERSION_MINOR * 1000 + VERSION_PATCH * 100 + VERSION_BUILD
+        versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_BUILD}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -21,6 +27,7 @@ android {
             buildConfigField "boolean", "REPORT_CRASHES", "true"
         }
         debug {
+            versionNameSuffix "-{$android.defaultConfig.versionCode}"
             buildConfigField "boolean", "REPORT_CRASHES", "false"
             applicationIdSuffix '.debug'
         }
@@ -32,7 +39,7 @@ android {
             versionNameSuffix "-theme1"
             dimension "normal"
             buildConfigField "boolean", "LOGGING", "true"
-            
+
         }
         secondaryTheme {
             applicationIdSuffix ".theme2"
