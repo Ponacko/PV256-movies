@@ -16,7 +16,29 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "REPORT_CRASHES", "true"
+        }
+        debug {
+            buildConfigField "boolean", "REPORT_CRASHES", "false"
+            applicationIdSuffix '.debug'
+        }
+    }
+    flavorDimensions "normal"
+    productFlavors {
+        primaryTheme {
+            applicationIdSuffix ".theme1"
+            versionNameSuffix "-theme1"
+            dimension "normal"
+            buildConfigField "boolean", "LOGGING", "true"
+            
+        }
+        secondaryTheme {
+            applicationIdSuffix ".theme2"
+            versionNameSuffix "-theme2"
+            dimension "normal"
+            buildConfigField "boolean", "LOGGING", "false"
         }
     }
 }
