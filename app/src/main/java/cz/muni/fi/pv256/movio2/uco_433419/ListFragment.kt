@@ -4,16 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_list.*
+import android.util.Log
+import com.squareup.okhttp.Callback
+import com.squareup.okhttp.OkHttpClient
+import com.squareup.okhttp.Request
+import com.squareup.okhttp.Response
+import com.squareup.okhttp.internal.Internal.logger
+import java.io.IOException
+import java.util.logging.Level
+import com.google.gson.GsonBuilder
 
 
 /**
@@ -27,6 +35,8 @@ import kotlinx.android.synthetic.main.fragment_list.*
 class ListFragment : android.support.v4.app.Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
+    private var mHandler: Handler = Handler()
+    private val client = OkHttpClient()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
@@ -41,13 +51,39 @@ class ListFragment : android.support.v4.app.Fragment() {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val filmList = arrayListOf(ListCategory("Sci-fi"),
-                Film("Star Wars", 1977, 3.5f, "sw", "backdrop"),
-                ListCategory("Fantasy"),
-                Film("Lord of the Rings", 2001, 3.0f, "lotr", "backdrop"),
-                Film("Harry Potter", 2001, 4.1f, "hp1", "backdrop"))
+
+    private fun performNetworkCall() {
+        val request = Request.Builder()
+                .url("https://api.themoviedb.org/3/discover/movie?api_key=8009a08149f286e1ef6f22da18708ae4&primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22")
+                .build()
+
+        val call = client.newCall(request)
+        call.enqueue(object : Callback {
+            override fun onFailure(request: Request, e: IOException) {
+                logger.log(Level.SEVERE, "Failed to execute " + request, e)
+                Log.d("run", "wtf")
+            }
+
+            override fun onResponse(response: Response) {
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code " + response)
+                }
+                val json = response.body().string()
+                val gson = GsonBuilder().create()
+                val r = gson.fromJson(json, FilmResponse::class.java)
+                mHandler.post { addResponseToFilmList(r) }
+
+            }
+        })
+    }
+
+    fun addResponseToFilmList(response: FilmResponse) {
+        val filmList = response.results as ArrayList<ListItem>
+        /*arrayListOf(ListCategory("Sci-fi"),
+        Film("Star Wars", 1977, 3.5f, "sw", "backdrop_path"),
+        ListCategory("Fantasy"),
+        Film("Lord of the Rings", 2001, 3.0f, "lotr", "backdrop_path"),
+        Film("Harry Potter", 2001, 4.1f, "hp1", "backdrop_path"))*/
         val adapter = FilmAdapter(filmList, this)
         list.layoutManager = LinearLayoutManager(context)
         if (filmList.isEmpty()){
@@ -55,6 +91,16 @@ class ListFragment : android.support.v4.app.Fragment() {
             empty.visibility = View.VISIBLE
         }
         list.adapter = adapter
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        performNetworkCall()
+//        if (filmList.isEmpty()) {
+//            list.visibility = View.GONE
+//            empty.visibility = View.VISIBLE
+//        }
+
     }
 
     override fun onDetach() {

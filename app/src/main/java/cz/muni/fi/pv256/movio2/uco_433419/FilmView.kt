@@ -5,12 +5,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.support.constraint.ConstraintLayout
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.graphics.Palette
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.film_item.view.*
 
 
@@ -24,18 +20,18 @@ class FilmView(context: Context, attrs : AttributeSet) : ConstraintLayout(contex
     }
 
     fun setFilmProperties(film : Film){
-        filmName.text = film.title
-        val resId = resources.getIdentifier(film.coverPath, "drawable", context.packageName)
-        val semitransparentColor = getColorFromResource(resId, 0.75f)
-        val solidColor = getColorFromResource(resId, 1f)
-        val transparentColor = getColorFromResource(resId, 0f)
-        filmName.setBackgroundColor(semitransparentColor)
-        filmImage.setImageResource(resId)
+        filmName.text = film.original_title
+//        val resId = resources.getIdentifier(film.coverPath, "drawable", context.packageName)
+//        val semitransparentColor = getColorFromResource(resId, 0.75f)
+//        val solidColor = getColorFromResource(resId, 1f)
+//        val transparentColor = getColorFromResource(resId, 0f)
+//        filmName.setBackgroundColor(semitransparentColor)
+        //filmImage.setImageResource(resId)
 
-        filmRating.text = film.popularity.toString()
-        val gradientDrawable = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                intArrayOf(transparentColor, solidColor))
-        filmRating.background = gradientDrawable
+//        filmRating.text = film.popularity.toString()
+//        val gradientDrawable = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+//                intArrayOf(transparentColor, solidColor))
+//        filmRating.background = gradientDrawable
     }
 
     private fun getColorFromResource(resId : Int, opacity : Float) : Int{

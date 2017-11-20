@@ -52,7 +52,7 @@ class DetailFragment : Fragment() {
     }
 
     fun setFilmText(film: Film){
-        titleText.text = "${film.title} (${film.releaseDate})"
+        titleText.text = "${film.original_title} (${film.releaseDate})"
         filmImage.setImageResource(resources.getIdentifier(film.coverPath,
                 "drawable", context?.packageName))
     }
