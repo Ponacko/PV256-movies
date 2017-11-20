@@ -28,9 +28,9 @@ class ListFragment : android.support.v4.app.Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
-            inflater!!.inflate(R.layout.fragment_list, container, false)
+            inflater.inflate(R.layout.fragment_list, container, false)
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -43,9 +43,6 @@ class ListFragment : android.support.v4.app.Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
-
         val filmList = arrayListOf(ListCategory("Sci-fi"),
                 Film("Star Wars", 1977, 3.5f, "sw", "backdrop"),
                 ListCategory("Fantasy"),
