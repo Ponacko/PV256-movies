@@ -28,7 +28,7 @@ class FilmView(context: Context, attrs : AttributeSet) : ConstraintLayout(contex
 //        filmName.setBackgroundColor(semitransparentColor)
         //filmImage.setImageResource(resId)
 
-//        filmRating.text = film.popularity.toString()
+        filmRating.text = film.popularity.toString()
 //        val gradientDrawable = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
 //                intArrayOf(transparentColor, solidColor))
 //        filmRating.background = gradientDrawable
