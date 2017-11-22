@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable
 import android.support.constraint.ConstraintLayout
 import android.support.v7.graphics.Palette
 import android.util.AttributeSet
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.film_item.view.*
 
@@ -24,7 +25,8 @@ class FilmView(context: Context, attrs : AttributeSet) : ConstraintLayout(contex
         filmName.text = film.original_title
         Picasso.with(context)
                 .load("https://image.tmdb.org/t/p/w500" +
-                        film.poster_path).into(filmImage)
+                        film.poster_path)
+                .into(filmImage)
 //        val resId = resources.getIdentifier(film.coverPath, "drawable", context.packageName)
 //        val semitransparentColor = getColorFromResource(resId, 0.75f)
 //        val solidColor = getColorFromResource(resId, 1f)
