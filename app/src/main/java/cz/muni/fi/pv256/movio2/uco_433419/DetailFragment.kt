@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 
@@ -51,10 +52,11 @@ class DetailFragment : Fragment() {
         }
     }
 
-    fun setFilmText(film: Film){
-        titleText.text = "${film.original_title} (${film.releaseDate})"
-        filmImage.setImageResource(resources.getIdentifier(film.coverPath,
-                "drawable", context?.packageName))
+    fun setFilmProperties(film: Film) {
+        titleText.text = "${film.original_title} (${film.release_date.substring(0, 4)})"
+        Picasso.with(context)
+                .load("https://image.tmdb.org/t/p/w500" +
+                        film.backdrop_path).into(filmImage)
     }
 
     override fun onDetach() {

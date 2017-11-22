@@ -24,7 +24,7 @@ class FilmView(context: Context, attrs : AttributeSet) : ConstraintLayout(contex
         filmName.text = film.original_title
         Picasso.with(context)
                 .load("https://image.tmdb.org/t/p/w500" +
-                        film.backdrop_path).into(filmImage)
+                        film.poster_path).into(filmImage)
 //        val resId = resources.getIdentifier(film.coverPath, "drawable", context.packageName)
 //        val semitransparentColor = getColorFromResource(resId, 0.75f)
 //        val solidColor = getColorFromResource(resId, 1f)

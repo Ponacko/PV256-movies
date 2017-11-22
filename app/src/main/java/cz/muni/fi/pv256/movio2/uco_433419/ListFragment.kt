@@ -13,15 +13,6 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_list.*
-import android.util.Log
-import com.squareup.okhttp.Callback
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.Request
-import com.squareup.okhttp.Response
-import com.squareup.okhttp.internal.Internal.logger
-import java.io.IOException
-import java.util.logging.Level
-import com.google.gson.GsonBuilder
 
 
 /**
@@ -79,7 +70,7 @@ class ListFragment : android.support.v4.app.Fragment() {
     fun startFilmDetailActivity(film : Film) {
         if (detailFragmentTablet != null && (detailFragmentTablet as DetailFragment).titleText != null) {
             val detail = detailFragmentTablet as DetailFragment
-            detail.setFilmText(film)
+            detail.setFilmProperties(film)
         } else {
             val intent = Intent(activity, DetailActivity::class.java)
             intent.putExtra("FILM", film)
