@@ -51,9 +51,9 @@ class ListFragment : android.support.v4.app.Fragment() {
         val current = filmList.filterNot { film -> film.release_date > today }
         val listItems = arrayListOf<ListItem>()
                 .plus(ListCategory("Upcoming"))
-                .plus(upcoming)
+                .plus(upcoming.sortedByDescending { film -> film.release_date })
                 .plus(ListCategory("Current"))
-                .plus(current) as ArrayList<ListItem>
+                .plus(current.sortedByDescending { film -> film.release_date }) as ArrayList<ListItem>
 
         val adapter = FilmAdapter(listItems, this)
         list.layoutManager = LinearLayoutManager(context)
