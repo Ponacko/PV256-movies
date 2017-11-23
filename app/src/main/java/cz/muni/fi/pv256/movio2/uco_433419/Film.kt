@@ -20,8 +20,8 @@ class Film(original_title: String, var release_date: String, var popularity: Flo
         dest?.writeString(original_title)
         dest?.writeString(release_date)
         dest?.writeFloat(popularity)
-        dest?.writeString(poster_path)
-        dest?.writeString(backdrop_path)
+        dest?.writeString(poster_path ?: "poster_path")
+        dest?.writeString(backdrop_path ?: "poster_path")
 
     }
 

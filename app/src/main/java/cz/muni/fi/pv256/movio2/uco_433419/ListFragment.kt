@@ -13,6 +13,8 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_list.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -41,10 +43,21 @@ class ListFragment : android.support.v4.app.Fragment() {
     }
 
     fun addResponseToFilmList(response: FilmResponse) {
-        val filmList = response.results as ArrayList<ListItem>
-        val adapter = FilmAdapter(filmList, this)
+        val filmList = response.results as ArrayList<Film>
+        val cal = Calendar.getInstance()
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        val today = formatter.format(cal.time)
+        val upcoming = filmList.filter { film -> film.release_date > today }
+        val current = filmList.filterNot { film -> film.release_date > today }
+        val listItems = arrayListOf<ListItem>()
+                .plus(ListCategory("Upcoming"))
+                .plus(upcoming)
+                .plus(ListCategory("Current"))
+                .plus(current) as ArrayList<ListItem>
+
+        val adapter = FilmAdapter(listItems, this)
         list.layoutManager = LinearLayoutManager(context)
-        if (filmList.isEmpty()){
+        if (listItems.isEmpty()) {
             list.visibility = View.GONE
             empty.visibility = View.VISIBLE
         }
