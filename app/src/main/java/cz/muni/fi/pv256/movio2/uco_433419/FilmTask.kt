@@ -48,6 +48,8 @@ class FilmTask(fragment: ListFragment) : AsyncTask<Void, Int, String>() {
             }
         } catch (e: Exception) {
             Log.e("onPostExecute", e.message)
+        } finally {
+            fragmentReference?.get()?.onTaskFinished()
         }
     }
 }

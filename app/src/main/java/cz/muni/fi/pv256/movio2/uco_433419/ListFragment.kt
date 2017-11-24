@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -28,7 +27,7 @@ import java.util.*
 class ListFragment : android.support.v4.app.Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
-    private var mHandler: Handler = Handler()
+    private var filmTask: FilmTask? = FilmTask(this)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
             inflater.inflate(R.layout.fragment_list, container, false)
@@ -76,15 +75,19 @@ class ListFragment : android.support.v4.app.Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         list.adapter = FilmAdapter(arrayListOf(), this)
-        val task = FilmTask(this)
-        task.execute()
+        filmTask?.execute()
         //setEmptyScreen()
 
     }
 
     override fun onDetach() {
         super.onDetach()
+        filmTask?.cancel(true)
         mListener = null
+    }
+
+    fun onTaskFinished() {
+        filmTask = null
     }
 
     fun startFilmDetailActivity(film : Film) {
