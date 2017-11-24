@@ -58,20 +58,27 @@ class ListFragment : android.support.v4.app.Fragment() {
         val adapter = FilmAdapter(listItems, this)
         list.layoutManager = LinearLayoutManager(context)
         if (listItems.isEmpty()) {
-            list.visibility = View.GONE
-            empty.visibility = View.VISIBLE
+            setEmptyScreen()
         }
         list.adapter = adapter
     }
 
+    fun setEmptyScreen() {
+        list.visibility = View.GONE
+        empty.visibility = View.VISIBLE
+    }
+
+    fun setListScreen() {
+        list.visibility = View.VISIBLE
+        empty.visibility = View.GONE
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        list.adapter = FilmAdapter(arrayListOf(), this)
         val task = FilmTask(this)
         task.execute()
-//        if (filmList.isEmpty()) {
-//            list.visibility = View.GONE
-//            empty.visibility = View.VISIBLE
-//        }
+        //setEmptyScreen()
 
     }
 

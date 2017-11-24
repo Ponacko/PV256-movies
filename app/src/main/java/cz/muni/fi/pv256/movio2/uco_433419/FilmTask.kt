@@ -1,6 +1,7 @@
 package cz.muni.fi.pv256.movio2.uco_433419
 
 import android.os.AsyncTask
+import android.util.Log
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
@@ -29,10 +30,11 @@ class FilmTask(fragment: ListFragment) : AsyncTask<Void, Int, String>() {
             val response = client.newCall(request).execute()
             return response.body().string()
         } catch (e: Exception) {
-            e.printStackTrace();
+            return ""
         }
         return ""
     }
+
 
     override fun onPostExecute(result: String?) {
         super.onPostExecute(result)
@@ -41,9 +43,11 @@ class FilmTask(fragment: ListFragment) : AsyncTask<Void, Int, String>() {
                 val gson = GsonBuilder().create()
                 val r = gson.fromJson(result, FilmResponse::class.java)
                 fragmentReference?.get()?.addResponseToFilmList(r)
+            } else {
+                fragmentReference?.get()?.setEmptyScreen()
             }
         } catch (e: Exception) {
-            // TODO
+            Log.e("onPostExecute", e.message)
         }
     }
 }
