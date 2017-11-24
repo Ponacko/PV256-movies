@@ -4,4 +4,6 @@
 	<string name="film_name">Názov filmu</string>
 	<string name="film_title">Titulok filmu</string>
 	<string name="no_data">Dáta nie sú dostupné.</string>
+	<string name="category_upcoming">Nadchádzajúce</string>
+	<string name="category_current">Súčasné</string>
 </resources>

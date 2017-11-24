@@ -3,4 +3,6 @@
 	<string name="film_name">Film name</string>
 	<string name="film_title">Film title</string>
 	<string name="no_data">There is no data available.</string>
+	<string name="category_upcoming">Upcoming</string>
+	<string name="category_current">Current</string>
 </resources>
