@@ -5,7 +5,7 @@ import android.os.Parcelable
 
 class Film (title: String, var releaseDate: Long, var popularity: Float,
            var coverPath: String, var backdrop: String) : ListItem(title), Parcelable {
-
+    override val type = 0
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
