@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Pokemon</string>
+	<string name="film_name">Naruto</string>
+	<string name="film_title">Origami</string>
+	<string name="no_data">Karate.</string>
+</resources>

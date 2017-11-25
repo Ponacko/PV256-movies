@@ -19,7 +19,7 @@
         android:textSize="15sp"
         android:padding="10dp"
         android:layout_height="wrap_content"
-        tools:text="Nazov filmu"/>
+        tools:text="@string/film_name" />
     <TextView
         android:textColor="#fff"
         android:id="@+id/filmRating"
@@ -28,5 +28,5 @@
         android:padding="10dp"
         android:drawableStart="@drawable/ic_star_black_24dp"
         android:layout_height="wrap_content"
-        tools:text="Nazov filmu"/>
+        tools:text="@string/film_name" />
 </cz.muni.fi.pv256.movio2.uco_433419.FilmView>
