@@ -35,10 +35,8 @@ class DetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_detail, container, false)
-    }
+                              savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
+            inflater!!.inflate(R.layout.fragment_detail, container, false)
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
@@ -58,6 +56,8 @@ class DetailFragment : Fragment() {
 
     fun setFilmText(film: Film){
         titleText.text = "${film.title} (${film.releaseDate})"
+        filmImage.setImageResource(resources.getIdentifier(film.coverPath,
+                "drawable", context.packageName))
     }
 
     override fun onDetach() {
