@@ -1,14 +1,18 @@
 package cz.muni.fi.pv256.movio2.uco_433419
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -27,7 +31,6 @@ import java.util.*
 class ListFragment : android.support.v4.app.Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
-    private var filmTask: FilmTask? = FilmTask(this)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
             inflater.inflate(R.layout.fragment_list, container, false)
@@ -75,19 +78,24 @@ class ListFragment : android.support.v4.app.Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         list.adapter = FilmAdapter(arrayListOf(), this)
-        filmTask?.execute()
-        //setEmptyScreen()
+
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) =
+                    processResults(intent.getStringExtra("result"))
+        }
+        val intentFilter = IntentFilter(ACTION_DOWNLOAD_DATA)
+        context?.registerReceiver(receiver, intentFilter)
+        val intent = Intent(context, DownloadService::class.java)
+        context?.startService(intent)
 
     }
 
     override fun onDetach() {
         super.onDetach()
-        filmTask?.cancel(true)
         mListener = null
     }
 
     fun onTaskFinished() {
-        filmTask = null
     }
 
     fun startFilmDetailActivity(film : Film) {
@@ -100,6 +108,23 @@ class ListFragment : android.support.v4.app.Fragment() {
             startActivity(intent)
         }
     }
+
+    private fun processResults(result: String) {
+        try {
+            if (result != "") {
+                val gson = GsonBuilder().create()
+                val r = gson.fromJson(result, FilmResponse::class.java)
+                addResponseToFilmList(r)
+            } else {
+                setEmptyScreen()
+            }
+        } catch (e: Exception) {
+            Log.e("onPostExecute", e.message)
+        } finally {
+            onTaskFinished()
+        }
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
