@@ -20,7 +20,7 @@ class DownloadService : IntentService("Download service") {
 
 
     override fun onHandleIntent(p0: Intent?) {
-        sendNotification("Film data is being downloaded.")
+        sendNotification("Film data is being downloaded.", 0)
         val cal = Calendar.getInstance()
         cal.add(Calendar.DAY_OF_MONTH, -7)
         val formatter = SimpleDateFormat("yyyy-MM-dd")
@@ -33,13 +33,17 @@ class DownloadService : IntentService("Download service") {
         try {
             val response = client.newCall(request).execute()
             sendBroadcastIntent(response.body().string())
+            sendNotification("Data was downloaded succesfully.", 1)
 
         } catch (e: Exception) {
             sendBroadcastIntent("")
+            sendNotification("There was an error while downloading data.", 1)
+        } finally {
+            notificationManager.cancel(0)
         }
     }
 
-    private fun sendNotification(msg: String) {
+    private fun sendNotification(msg: String, id: Int) {
         notificationManager = this.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         val contentIntent = PendingIntent.getActivity(this, 0,
                 Intent(this, MainActivity::class.java), 0)
@@ -49,9 +53,10 @@ class DownloadService : IntentService("Download service") {
                 .setStyle(NotificationCompat.BigTextStyle()
                         .bigText(msg))
                 .setContentText(msg)
+                .setAutoCancel(true)
                 .setSmallIcon(R.mipmap.ic_launcher)
         builder.setContentIntent(contentIntent)
-        notificationManager.notify(0, builder.build())
+        notificationManager.notify(id, builder.build())
     }
 
     private fun sendBroadcastIntent(responseBody: String) {
