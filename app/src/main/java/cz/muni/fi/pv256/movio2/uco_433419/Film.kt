@@ -6,7 +6,6 @@ import android.os.Parcelable
 class Film(original_title: String, var release_date: String, var popularity: Float,
            var poster_path: String, var backdrop_path: String) : ListItem(original_title), Parcelable {
 
-
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),

@@ -5,19 +5,20 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.support.v4.app.NotificationCompat
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.Request
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 /**
- * @author Tomáš Stolárik <tomas.stolarik@dactylgroup.com>
+ * @author Tomáš Stolárik
  */
 class DownloadService : IntentService("Download service") {
-    private val client = OkHttpClient()
     private lateinit var notificationManager: NotificationManager
-
 
     override fun onHandleIntent(p0: Intent?) {
         sendNotification("Film data is being downloaded.", 0)
@@ -27,20 +28,33 @@ class DownloadService : IntentService("Download service") {
         val sevenDaysAgo = formatter.format(cal.time)
         cal.add(Calendar.DAY_OF_MONTH, 14)
         val sevenDaysFromNow = formatter.format(cal.time)
-        val request = Request.Builder()
-                .url("https://api.themoviedb.org/3/discover/movie?api_key=8009a08149f286e1ef6f22da18708ae4&primary_release_date.gte=$sevenDaysAgo&primary_release_date.lte=$sevenDaysFromNow?sort_by=primary_release_date.desc")
+        val retrofit = Retrofit.Builder()
+                .baseUrl("https://api.themoviedb.org/3/")
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
-        try {
-            val response = client.newCall(request).execute()
-            sendBroadcastIntent(response.body().string())
-            sendNotification("Data was downloaded succesfully.", 1)
+        val service = retrofit.create<DiscoverService>(DiscoverService::class.java)
+        val films = service.listFilms(sevenDaysAgo, sevenDaysFromNow)
+        val daco = films.request().url().toString()
+        films.enqueue(object : Callback<FilmResponse> {
+            override fun onFailure(call: Call<FilmResponse>?, t: Throwable?) {
+                downloadFailure()
+            }
 
-        } catch (e: Exception) {
-            sendBroadcastIntent("")
-            sendNotification("There was an error while downloading data.", 1)
-        } finally {
-            notificationManager.cancel(0)
-        }
+            override fun onResponse(call: Call<FilmResponse>?, response: Response<FilmResponse>?) {
+                if (response?.body()?.results != null) {
+                    sendBroadcastIntent(response.body()!!.results as ArrayList<Film>)
+                    sendNotification("Data was downloaded successfully.", 1)
+                } else {
+                    downloadFailure()
+                }
+            }
+        })
+        notificationManager.cancel(0)
+    }
+
+    private fun downloadFailure() {
+        sendBroadcastIntent(arrayListOf())
+        sendNotification("There was an error while downloading data.", 1)
     }
 
     private fun sendNotification(msg: String, id: Int) {
@@ -59,10 +73,10 @@ class DownloadService : IntentService("Download service") {
         notificationManager.notify(id, builder.build())
     }
 
-    private fun sendBroadcastIntent(responseBody: String) {
+    private fun sendBroadcastIntent(responseBody: ArrayList<Film>) {
         val intent = Intent()
         intent.action = ACTION_DOWNLOAD_DATA
-        intent.putExtra("result", responseBody)
+        intent.putParcelableArrayListExtra("result", responseBody)
         sendBroadcast(intent)
     }
 }

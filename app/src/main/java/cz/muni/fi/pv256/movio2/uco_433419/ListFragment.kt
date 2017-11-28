@@ -8,11 +8,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -44,8 +42,7 @@ class ListFragment : android.support.v4.app.Fragment() {
         }
     }
 
-    fun addResponseToFilmList(response: FilmResponse) {
-        val filmList = response.results as ArrayList<Film>
+    private fun addListToAdapter(filmList: ArrayList<Film>) {
         val cal = Calendar.getInstance()
         val formatter = SimpleDateFormat("yyyy-MM-dd")
         val today = formatter.format(cal.time)
@@ -65,7 +62,7 @@ class ListFragment : android.support.v4.app.Fragment() {
         list.adapter = adapter
     }
 
-    fun setEmptyScreen() {
+    private fun setEmptyScreen() {
         list.visibility = View.GONE
         empty.visibility = View.VISIBLE
     }
@@ -81,7 +78,7 @@ class ListFragment : android.support.v4.app.Fragment() {
 
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) =
-                    processResults(intent.getStringExtra("result"))
+                    processResults(intent.getParcelableArrayListExtra("result"))
         }
         val intentFilter = IntentFilter(ACTION_DOWNLOAD_DATA)
         context?.registerReceiver(receiver, intentFilter)
@@ -98,7 +95,7 @@ class ListFragment : android.support.v4.app.Fragment() {
     fun onTaskFinished() {
     }
 
-    fun startFilmDetailActivity(film : Film) {
+    fun startFilmDetailActivity(film: Film) {
         if (detailFragmentTablet != null && (detailFragmentTablet as DetailFragment).titleText != null) {
             val detail = detailFragmentTablet as DetailFragment
             detail.setFilmProperties(film)
@@ -109,19 +106,11 @@ class ListFragment : android.support.v4.app.Fragment() {
         }
     }
 
-    private fun processResults(result: String) {
-        try {
-            if (result != "") {
-                val gson = GsonBuilder().create()
-                val r = gson.fromJson(result, FilmResponse::class.java)
-                addResponseToFilmList(r)
-            } else {
-                setEmptyScreen()
-            }
-        } catch (e: Exception) {
-            Log.e("onPostExecute", e.message)
-        } finally {
-            onTaskFinished()
+    private fun processResults(result: ArrayList<Film>) {
+        if (result.isNotEmpty()) {
+            addListToAdapter(result)
+        } else {
+            setEmptyScreen()
         }
     }
 
