@@ -1,20 +1,26 @@
 package cz.muni.fi.pv256.movio2.uco_433419
 
 import android.app.IntentService
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
+import android.support.v4.app.NotificationCompat
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 /**
  * @author Tomáš Stolárik <tomas.stolarik@dactylgroup.com>
  */
 class DownloadService : IntentService("Download service") {
     private val client = OkHttpClient()
+    private lateinit var notificationManager: NotificationManager
 
 
     override fun onHandleIntent(p0: Intent?) {
+        sendNotification("Film data is being downloaded.")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DAY_OF_MONTH, -7)
         val formatter = SimpleDateFormat("yyyy-MM-dd")
@@ -31,7 +37,21 @@ class DownloadService : IntentService("Download service") {
         } catch (e: Exception) {
             sendBroadcastIntent("")
         }
+    }
 
+    private fun sendNotification(msg: String) {
+        notificationManager = this.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val contentIntent = PendingIntent.getActivity(this, 0,
+                Intent(this, MainActivity::class.java), 0)
+
+        val builder = NotificationCompat.Builder(this)
+                .setContentTitle("Films")
+                .setStyle(NotificationCompat.BigTextStyle()
+                        .bigText(msg))
+                .setContentText(msg)
+                .setSmallIcon(R.mipmap.ic_launcher)
+        builder.setContentIntent(contentIntent)
+        notificationManager.notify(0, builder.build())
     }
 
     private fun sendBroadcastIntent(responseBody: String) {
