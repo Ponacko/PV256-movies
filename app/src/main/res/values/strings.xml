@@ -5,4 +5,7 @@
 	<string name="no_data">There is no data available.</string>
 	<string name="category_upcoming">Upcoming</string>
 	<string name="category_current">Current</string>
+	<string name="notification_error">There was an error while downloading data.</string>
+	<string name="notification_title">Films</string>
+	<string name="notification_successful">Data was downloaded successfully.</string>
 </resources>

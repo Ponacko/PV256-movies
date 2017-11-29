@@ -34,27 +34,26 @@ class DownloadService : IntentService("Download service") {
                 .build()
         val service = retrofit.create<DiscoverService>(DiscoverService::class.java)
         val films = service.listFilms(sevenDaysAgo, sevenDaysFromNow)
-        val daco = films.request().url().toString()
+        films.request().url().toString()
         films.enqueue(object : Callback<FilmResponse> {
             override fun onFailure(call: Call<FilmResponse>?, t: Throwable?) {
                 downloadFailure()
             }
 
-            override fun onResponse(call: Call<FilmResponse>?, response: Response<FilmResponse>?) {
-                if (response?.body()?.results != null) {
-                    sendBroadcastIntent(response.body()!!.results as ArrayList<Film>)
-                    sendNotification("Data was downloaded successfully.", 1)
-                } else {
-                    downloadFailure()
-                }
-            }
+            override fun onResponse(call: Call<FilmResponse>?, response: Response<FilmResponse>?) =
+                    if (response?.body()?.results != null) {
+                        sendBroadcastIntent(response.body()!!.results as ArrayList<Film>)
+                        sendNotification(getString(R.string.notification_successful), 1)
+                    } else {
+                        downloadFailure()
+                    }
         })
         notificationManager.cancel(0)
     }
 
     private fun downloadFailure() {
         sendBroadcastIntent(arrayListOf())
-        sendNotification("There was an error while downloading data.", 1)
+        sendNotification(getString(R.string.notification_error), 1)
     }
 
     private fun sendNotification(msg: String, id: Int) {
@@ -63,7 +62,7 @@ class DownloadService : IntentService("Download service") {
                 Intent(this, MainActivity::class.java), 0)
 
         val builder = NotificationCompat.Builder(this)
-                .setContentTitle("Films")
+                .setContentTitle(getString(R.string.notification_title))
                 .setStyle(NotificationCompat.BigTextStyle()
                         .bigText(msg))
                 .setContentText(msg)
