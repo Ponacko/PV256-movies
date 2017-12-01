@@ -21,6 +21,11 @@
         </activity>
         <activity android:name=".DetailActivity"/>
 
+		<provider
+			android:authorities="@string/content_authority"
+			android:name=".data.FilmProvider"
+			android:exported="false" />
+
         <service
             android:name=".DownloadService"
             android:enabled="true"
