@@ -21,7 +21,7 @@ class FilmProvider : ContentProvider() {
         return true
     }
 
-    override fun query(uri: Uri, projection: Array<String>, selection: String, selectionArgs: Array<String>, sortOrder: String): Cursor {
+    override fun query(uri: Uri, projection: Array<String>, selection: String?, selectionArgs: Array<String>?, sortOrder: String?): Cursor {
         Log.d(TAG, Arrays.toString(selectionArgs))
         val retCursor: Cursor
         when (uriMatcher.match(uri)) {
@@ -80,7 +80,7 @@ class FilmProvider : ContentProvider() {
         return returnUri
     }
 
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>): Int {
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         val db = openHelper!!.writableDatabase
         val match = uriMatcher.match(uri)
         val rowsDeleted: Int

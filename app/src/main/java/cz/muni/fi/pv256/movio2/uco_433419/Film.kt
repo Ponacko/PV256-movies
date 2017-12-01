@@ -25,6 +25,24 @@ class Film(original_title: String, var release_date: String, var popularity: Flo
 
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Film
+
+        if (release_date != other.release_date) return false
+        if (original_title != other.original_title) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = release_date.hashCode()
+        result = 31 * result + original_title.hashCode()
+        return result
+    }
+
     companion object CREATOR : Parcelable.Creator<Film> {
         override fun createFromParcel(parcel: Parcel): Film? = Film(parcel)
 

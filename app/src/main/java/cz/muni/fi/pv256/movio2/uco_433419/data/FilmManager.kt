@@ -28,9 +28,11 @@ class FilmManager(context: Context) {
     private var context: Context = context.applicationContext
 
     fun createFilm(film: Film?) {
-        checkNulls(film)
-        film?.id = ContentUris.parseId(context.contentResolver.insert(FilmEntry.CONTENT_URI,
-                prepareFilmValues(film!!)))
+        if (film == null) {
+            throw IllegalStateException("film cannot be null")
+        }
+        film.id = ContentUris.parseId(context.contentResolver.insert(FilmEntry.CONTENT_URI,
+                prepareFilmValues(film)))
     }
 
     fun getFilms(): List<Film> {
