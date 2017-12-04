@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
+import cz.muni.fi.pv256.movio2.uco_433419.data.FilmManager
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.text.SimpleDateFormat
 
@@ -32,7 +33,6 @@ class DetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         mParam1 = arguments?.getString(ARG_PARAM1)
         mParam2 = arguments?.getString(ARG_PARAM2)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -62,6 +62,8 @@ class DetailFragment : Fragment() {
         Picasso.with(context)
                 .load("https://image.tmdb.org/t/p/w500" +
                         film.backdrop_path).into(filmImage)
+        val manager = FilmManager(context!!)
+        fab.setOnClickListener { manager.createFilm(film) }
     }
 
     override fun onDetach() {

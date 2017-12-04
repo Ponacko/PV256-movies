@@ -42,6 +42,7 @@ class ListFragment : android.support.v4.app.Fragment() {
         }
     }
 
+
     private fun addListToAdapter(filmList: ArrayList<Film>) {
         val cal = Calendar.getInstance()
         val formatter = SimpleDateFormat("yyyy-MM-dd")
