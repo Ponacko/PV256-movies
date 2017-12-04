@@ -3,6 +3,7 @@ package cz.muni.fi.pv256.movio2.uco_433419
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.SwitchCompat
 import android.view.Menu
 
 
@@ -11,6 +12,7 @@ class MainActivity : AppCompatActivity(), ListFragment.OnFragmentInteractionList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -18,6 +20,15 @@ class MainActivity : AppCompatActivity(), ListFragment.OnFragmentInteractionList
         inflater.inflate(R.menu.mainmenu, menu)
         val item = menu?.findItem(R.id.myswitch)
         item?.setActionView(R.layout.switch_layout)
+        (item?.actionView?.findViewById(R.id.switchForActionBar) as SwitchCompat).setOnCheckedChangeListener { _, isChecked ->
+            val listFragment = supportFragmentManager.findFragmentById(R.id.listFragment) as ListFragment
+            if (isChecked) {
+                listFragment.switchToDatabase()
+            } else {
+                listFragment.switchToNetwork()
+            }
+        }
+
         return true
     }
 

@@ -11,11 +11,13 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import cz.muni.fi.pv256.movio2.uco_433419.data.FilmManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_list.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -43,20 +45,24 @@ class ListFragment : android.support.v4.app.Fragment() {
     }
 
 
+    private var listItems: ArrayList<ListItem> = ArrayList()
+
     private fun addListToAdapter(filmList: ArrayList<Film>) {
         val cal = Calendar.getInstance()
         val formatter = SimpleDateFormat("yyyy-MM-dd")
         val today = formatter.format(cal.time)
         val upcoming = filmList.filter { film -> film.release_date > today }
         val current = filmList.filterNot { film -> film.release_date > today }
-        val listItems = arrayListOf<ListItem>()
+        listItems = arrayListOf<ListItem>()
                 .plus(ListCategory(getString(R.string.category_upcoming)))
                 .plus(upcoming.sortedByDescending { film -> film.release_date })
                 .plus(ListCategory(getString(R.string.category_current)))
                 .plus(current.sortedByDescending { film -> film.release_date }) as ArrayList<ListItem>
+        switchToNetwork()
+    }
 
+    fun switchToNetwork() {
         val adapter = FilmAdapter(listItems, this)
-        list.layoutManager = LinearLayoutManager(context)
         if (listItems.isEmpty()) {
             setEmptyScreen()
         }
@@ -64,14 +70,16 @@ class ListFragment : android.support.v4.app.Fragment() {
     }
 
     private fun setEmptyScreen() {
-        list.visibility = View.GONE
-        empty.visibility = View.VISIBLE
+        list?.visibility = View.GONE
+        empty?.visibility = View.VISIBLE
     }
 
-    fun setListScreen() {
-        list.visibility = View.VISIBLE
-        empty.visibility = View.GONE
+    private fun setListScreen() {
+        list?.visibility = View.VISIBLE
+        empty?.visibility = View.GONE
     }
+
+    private lateinit var manager: FilmManager
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -81,16 +89,24 @@ class ListFragment : android.support.v4.app.Fragment() {
             override fun onReceive(context: Context, intent: Intent) =
                     processResults(intent.getParcelableArrayListExtra("result"))
         }
+        list.layoutManager = LinearLayoutManager(context)
         val intentFilter = IntentFilter(ACTION_DOWNLOAD_DATA)
         context?.registerReceiver(receiver, intentFilter)
         val intent = Intent(context, DownloadService::class.java)
         context?.startService(intent)
-
+        manager = FilmManager(context!!)
     }
 
     override fun onDetach() {
         super.onDetach()
         mListener = null
+    }
+
+    fun switchToDatabase() {
+        val films = manager.getFilms()
+        val adapter = FilmAdapter(films as ArrayList<ListItem>, this)
+        setListScreen()
+        list.adapter = adapter
     }
 
     fun onTaskFinished() {
