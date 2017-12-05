@@ -24,15 +24,26 @@ class FilmManager(context: Context) {
     private val LOCAL_DATE_FORMAT = "yyyyMMdd"
 
     private val WHERE_ID = FilmEntry._ID + " = ?"
+    private val WHERE_NAME_AND_DATE = FilmEntry.COLUMN_ORIGINAL_TITLE_TEXT + " = ? AND " +
+            FilmEntry.COLUMN_RELEASE_DATE_TEXT + " = ?"
 
     private var context: Context = context.applicationContext
 
-    fun createFilm(film: Film?) {
+    fun createFilm(film: Film?): Long? {
         if (film == null) {
             throw IllegalStateException("film cannot be null")
         }
         film.id = ContentUris.parseId(context.contentResolver.insert(FilmEntry.CONTENT_URI,
                 prepareFilmValues(film)))
+        return film.id
+    }
+
+    fun containsFilm(film: Film): Boolean {
+        val cursor = context.contentResolver.query(FilmEntry.CONTENT_URI, FILM_COLUMNS, WHERE_NAME_AND_DATE,
+                arrayOf(film.original_title, film.release_date), null)
+        val result = cursor.count > 0
+        cursor.close()
+        return result
     }
 
     fun getFilms(): List<Film> {
@@ -68,8 +79,11 @@ class FilmManager(context: Context) {
     }
 
     fun deleteFilm(film: Film?) {
-        checkNulls(film)
-        context.contentResolver.delete(FilmEntry.CONTENT_URI, WHERE_ID, arrayOf(film!!.id.toString()))
+        if (film == null) {
+            throw NullPointerException("film == null")
+        }
+        context.contentResolver.delete(FilmEntry.CONTENT_URI, WHERE_NAME_AND_DATE,
+                arrayOf(film.original_title, film.release_date))
     }
 
     private fun prepareFilmValues(film: Film): ContentValues {

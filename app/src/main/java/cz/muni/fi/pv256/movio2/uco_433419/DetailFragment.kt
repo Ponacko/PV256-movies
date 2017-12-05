@@ -53,6 +53,8 @@ class DetailFragment : Fragment() {
         }
     }
 
+    private lateinit var manager: FilmManager
+
     fun setFilmProperties(film: Film) {
 
         val parser = SimpleDateFormat("yyyy-MM-dd")
@@ -62,8 +64,28 @@ class DetailFragment : Fragment() {
         Picasso.with(context)
                 .load("https://image.tmdb.org/t/p/w500" +
                         film.backdrop_path).into(filmImage)
-        val manager = FilmManager(context!!)
-        fab.setOnClickListener { manager.createFilm(film) }
+        manager = FilmManager(context!!)
+        if (manager.containsFilm(film)) {
+            switchFabState(true, film)
+        } else {
+            switchFabState(false, film)
+        }
+    }
+
+    private fun switchFabState(toAdded: Boolean, film: Film) {
+        if (toAdded) {
+            fab.setImageDrawable(resources.getDrawable(R.drawable.ic_remove_black_24dp))
+            fab.setOnClickListener {
+                manager.deleteFilm(film)
+                switchFabState(false, film)
+            }
+        } else {
+            fab.setImageDrawable(resources.getDrawable(R.drawable.ic_add_black_24dp))
+            fab.setOnClickListener {
+                manager.createFilm(film)
+                switchFabState(true, film)
+            }
+        }
     }
 
     override fun onDetach() {
