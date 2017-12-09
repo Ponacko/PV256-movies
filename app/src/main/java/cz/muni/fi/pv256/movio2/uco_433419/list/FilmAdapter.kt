@@ -10,7 +10,7 @@ import cz.muni.fi.pv256.movio2.uco_433419.model.Film
 import cz.muni.fi.pv256.movio2.uco_433419.model.ListItem
 
 
-class FilmAdapter(private val dataSet: ArrayList<ListItem>, private val fragment: ListFragment)  : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {
+open class FilmAdapter(private val dataSet: ArrayList<ListItem>, private val fragment: ListFragment) : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {
     private val TYPE_FILM = 0
     private val TYPE_CATEGORY = 1
 

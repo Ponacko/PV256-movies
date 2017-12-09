@@ -4,15 +4,19 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.LoaderManager
+import android.support.v4.content.CursorLoader
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cz.muni.fi.pv256.movio2.uco_433419.ACTION_DOWNLOAD_DATA
 import cz.muni.fi.pv256.movio2.uco_433419.R
+import cz.muni.fi.pv256.movio2.uco_433419.data.FilmEntry
 import cz.muni.fi.pv256.movio2.uco_433419.data.FilmManager
 import cz.muni.fi.pv256.movio2.uco_433419.detail.DetailActivity
 import cz.muni.fi.pv256.movio2.uco_433419.detail.DetailFragment
@@ -36,9 +40,12 @@ import kotlin.collections.ArrayList
  * Use the [ListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ListFragment : android.support.v4.app.Fragment() {
-
+class ListFragment : android.support.v4.app.Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     private var mListener: OnFragmentInteractionListener? = null
+    private lateinit var databaseAdapter: FilmDatabaseAdapter
+    private var listItems: ArrayList<ListItem> = ArrayList()
+    private lateinit var manager: FilmManager
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
             inflater.inflate(R.layout.fragment_list, container, false)
@@ -51,9 +58,6 @@ class ListFragment : android.support.v4.app.Fragment() {
             throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
         }
     }
-
-
-    private var listItems: ArrayList<ListItem> = ArrayList()
 
     private fun addListToAdapter(filmList: ArrayList<Film>) {
         val cal = Calendar.getInstance()
@@ -87,8 +91,6 @@ class ListFragment : android.support.v4.app.Fragment() {
         empty?.visibility = View.GONE
     }
 
-    private lateinit var manager: FilmManager
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         list.adapter = FilmAdapter(arrayListOf(), this)
@@ -103,6 +105,7 @@ class ListFragment : android.support.v4.app.Fragment() {
         val intent = Intent(context, DownloadService::class.java)
         context?.startService(intent)
         manager = FilmManager(context!!)
+        loaderManager.initLoader(1, null, this);
     }
 
     override fun onDetach() {
@@ -111,11 +114,8 @@ class ListFragment : android.support.v4.app.Fragment() {
     }
 
     fun switchToDatabase() {
-        val films = manager.getFilms()
-        val adapter = if (films.isNotEmpty()) FilmAdapter(films as ArrayList<ListItem>, this)
-        else FilmAdapter(arrayListOf(), this)
         setListScreen()
-        list.adapter = adapter
+        list.adapter = databaseAdapter
     }
 
 
@@ -138,6 +138,19 @@ class ListFragment : android.support.v4.app.Fragment() {
         }
     }
 
+    override fun onLoadFinished(loader: android.support.v4.content.Loader<Cursor>?, data: Cursor?) {
+        databaseAdapter.switchCursor(data)
+    }
+
+    override fun onCreateLoader(id: Int, args: Bundle?): android.support.v4.content.Loader<Cursor> {
+        //val cursor = manager.getCursor()
+        databaseAdapter = FilmDatabaseAdapter(this)
+        //cursor?.close()
+        return CursorLoader(context!!, FilmEntry.CONTENT_URI, manager.FILM_COLUMNS, null,
+                null, null)
+    }
+
+    override fun onLoaderReset(loader: android.support.v4.content.Loader<Cursor>?) = Unit
 
     /**
      * This interface must be implemented by activities that contain this

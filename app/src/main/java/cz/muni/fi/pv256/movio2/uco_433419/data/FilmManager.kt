@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import cz.muni.fi.pv256.movio2.uco_433419.*
 import cz.muni.fi.pv256.movio2.uco_433419.model.Film
 
 
@@ -11,13 +12,7 @@ import cz.muni.fi.pv256.movio2.uco_433419.model.Film
  * @author Tomáš Stolárik <tomas.stolarik@dactylgroup.com>
  */
 class FilmManager(context: Context) {
-    val COL_FILM_ID = 0
-    val COL_FILM_ORIGINAL_TITLE = 1
-    val COL_FILM_RELEASE_DATE = 2
-    val COL_FILM_POPULARITY = 3
-    val COL_FILM_POSTER_PATH = 4
-    val COL_FILM_BACKDROP_PATH = 5
-    private val FILM_COLUMNS = arrayOf(FilmEntry._ID, FilmEntry.COLUMN_ORIGINAL_TITLE_TEXT,
+    val FILM_COLUMNS = arrayOf(FilmEntry._ID, FilmEntry.COLUMN_ORIGINAL_TITLE_TEXT,
             FilmEntry.COLUMN_RELEASE_DATE_TEXT, FilmEntry.COLUMN_POPULARITY_TEXT,
             FilmEntry.COLUMN_POSTER_PATH_TEXT, FilmEntry.COLUMN_BACKDROP_PATH_TEXT)
 
@@ -45,6 +40,10 @@ class FilmManager(context: Context) {
         cursor.close()
         return result
     }
+
+    fun getCursor(): Cursor? =
+            context.contentResolver.query(FilmEntry.CONTENT_URI, FILM_COLUMNS, null,
+                    null, null)
 
     fun getFilms(): List<Film> {
         val cursor = context.contentResolver.query(FilmEntry.CONTENT_URI, FILM_COLUMNS, null,
