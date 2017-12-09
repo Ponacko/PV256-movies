@@ -8,6 +8,7 @@ import android.test.AndroidTestCase
 import android.util.Log
 import cz.muni.fi.pv256.movio2.uco_433419.data.FilmEntry
 import cz.muni.fi.pv256.movio2.uco_433419.data.FilmManager
+import cz.muni.fi.pv256.movio2.uco_433419.model.Film
 import junit.framework.TestCase
 
 class TestFilmManagerKt : AndroidTestCase() {

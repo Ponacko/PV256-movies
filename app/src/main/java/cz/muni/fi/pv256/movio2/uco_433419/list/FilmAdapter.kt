@@ -1,10 +1,13 @@
-package cz.muni.fi.pv256.movio2.uco_433419
+package cz.muni.fi.pv256.movio2.uco_433419.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import cz.muni.fi.pv256.movio2.uco_433419.R
+import cz.muni.fi.pv256.movio2.uco_433419.model.Film
+import cz.muni.fi.pv256.movio2.uco_433419.model.ListItem
 
 
 class FilmAdapter(private val dataSet: ArrayList<ListItem>, private val fragment: ListFragment)  : RecyclerView.Adapter<FilmAdapter.FilmViewHolder>() {

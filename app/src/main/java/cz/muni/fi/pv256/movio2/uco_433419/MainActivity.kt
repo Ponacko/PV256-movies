@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SwitchCompat
 import android.view.Menu
 import android.view.MenuItem
+import cz.muni.fi.pv256.movio2.uco_433419.detail.DetailFragment
+import cz.muni.fi.pv256.movio2.uco_433419.list.ListFragment
 import cz.muni.fi.pv256.movio2.uco_433419.synchronization.UpdaterSyncAdapter
 
 

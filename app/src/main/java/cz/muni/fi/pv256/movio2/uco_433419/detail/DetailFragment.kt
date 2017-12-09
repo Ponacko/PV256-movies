@@ -1,4 +1,4 @@
-package cz.muni.fi.pv256.movio2.uco_433419
+package cz.muni.fi.pv256.movio2.uco_433419.detail
 
 import android.content.Context
 import android.net.Uri
@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
+import cz.muni.fi.pv256.movio2.uco_433419.R
 import cz.muni.fi.pv256.movio2.uco_433419.data.FilmManager
+import cz.muni.fi.pv256.movio2.uco_433419.model.Film
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.text.SimpleDateFormat
 

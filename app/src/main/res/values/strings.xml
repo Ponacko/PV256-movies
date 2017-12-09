@@ -11,4 +11,5 @@
 	<string name="notification_title">Films</string>
 	<string name="notification_successful">Data was downloaded successfully.</string>
 	<string name="saved">Saved</string>
+	<string name="film_image">Film image</string>
 </resources>

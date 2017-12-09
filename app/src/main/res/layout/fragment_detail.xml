@@ -4,7 +4,7 @@
                                                  xmlns:tools="http://schemas.android.com/tools"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
-                                                 tools:context="cz.muni.fi.pv256.movio2.uco_433419.DetailFragment">
+    tools:context="cz.muni.fi.pv256.movio2.uco_433419.detail.DetailFragment">
     <android.support.design.widget.FloatingActionButton
 		android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -21,7 +21,8 @@
             android:scaleType="centerCrop"
             android:layout_gravity="top"
             android:layout_width="match_parent"
-            android:layout_height="170dp"/>
+            android:layout_height="170dp"
+            android:contentDescription="@string/film_image" />
         <TextView
             android:id="@+id/titleText"
             android:layout_width="match_parent"

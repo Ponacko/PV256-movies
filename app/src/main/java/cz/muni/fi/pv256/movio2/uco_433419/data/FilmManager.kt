@@ -4,7 +4,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import cz.muni.fi.pv256.movio2.uco_433419.Film
+import cz.muni.fi.pv256.movio2.uco_433419.model.Film
 
 
 /**

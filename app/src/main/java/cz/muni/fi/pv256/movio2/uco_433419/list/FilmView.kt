@@ -1,4 +1,4 @@
-package cz.muni.fi.pv256.movio2.uco_433419
+package cz.muni.fi.pv256.movio2.uco_433419.list
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.v7.graphics.Palette
 import android.util.AttributeSet
 import com.squareup.picasso.Picasso
+import cz.muni.fi.pv256.movio2.uco_433419.model.Film
 import kotlinx.android.synthetic.main.film_item.view.*
 
 

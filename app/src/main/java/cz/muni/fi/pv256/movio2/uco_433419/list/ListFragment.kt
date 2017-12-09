@@ -1,4 +1,4 @@
-package cz.muni.fi.pv256.movio2.uco_433419
+package cz.muni.fi.pv256.movio2.uco_433419.list
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,7 +11,15 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import cz.muni.fi.pv256.movio2.uco_433419.ACTION_DOWNLOAD_DATA
+import cz.muni.fi.pv256.movio2.uco_433419.R
 import cz.muni.fi.pv256.movio2.uco_433419.data.FilmManager
+import cz.muni.fi.pv256.movio2.uco_433419.detail.DetailActivity
+import cz.muni.fi.pv256.movio2.uco_433419.detail.DetailFragment
+import cz.muni.fi.pv256.movio2.uco_433419.download.DownloadService
+import cz.muni.fi.pv256.movio2.uco_433419.model.Film
+import cz.muni.fi.pv256.movio2.uco_433419.model.ListCategory
+import cz.muni.fi.pv256.movio2.uco_433419.model.ListItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_list.*

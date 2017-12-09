@@ -1,5 +1,6 @@
-package cz.muni.fi.pv256.movio2.uco_433419
+package cz.muni.fi.pv256.movio2.uco_433419.download
 
+import cz.muni.fi.pv256.movio2.uco_433419.model.FilmResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

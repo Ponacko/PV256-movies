@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity"/>
+		<activity android:name=".detail.DetailActivity" />
 
 		<provider
 			android:authorities="@string/content_authority"
@@ -30,7 +30,7 @@
 			android:exported="false" />
 
         <service
-            android:name=".DownloadService"
+			android:name=".download.DownloadService"
             android:enabled="true"
             android:exported="true" />
 		<!-- SyncAdapter's dummy authentication service -->
