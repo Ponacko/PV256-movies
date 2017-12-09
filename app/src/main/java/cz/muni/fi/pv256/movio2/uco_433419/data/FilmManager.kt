@@ -65,8 +65,8 @@ class FilmManager(context: Context) {
 
     fun updateFilm(film: Film?) {
         checkNulls(film)
-        context.contentResolver.update(FilmEntry.CONTENT_URI, prepareFilmValues(film!!), WHERE_ID,
-                arrayOf(film.id.toString()))
+        context.contentResolver.update(FilmEntry.CONTENT_URI, prepareFilmValues(film!!), WHERE_NAME_AND_DATE,
+                arrayOf(film.original_title, film.release_date))
     }
 
     private fun checkNulls(film: Film?) {

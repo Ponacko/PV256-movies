@@ -104,13 +104,12 @@ class ListFragment : android.support.v4.app.Fragment() {
 
     fun switchToDatabase() {
         val films = manager.getFilms()
-        val adapter = FilmAdapter(films as ArrayList<ListItem>, this)
+        val adapter = if (films.isNotEmpty()) FilmAdapter(films as ArrayList<ListItem>, this)
+        else FilmAdapter(arrayListOf(), this)
         setListScreen()
         list.adapter = adapter
     }
 
-    fun onTaskFinished() {
-    }
 
     fun startFilmDetailActivity(film: Film) {
         if (detailFragmentTablet != null && (detailFragmentTablet as DetailFragment).titleText != null) {

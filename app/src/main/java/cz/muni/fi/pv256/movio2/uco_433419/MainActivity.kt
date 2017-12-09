@@ -5,14 +5,18 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SwitchCompat
 import android.view.Menu
+import android.view.MenuItem
+import cz.muni.fi.pv256.movio2.uco_433419.synchronization.UpdaterSyncAdapter
 
 
-class MainActivity : AppCompatActivity(), ListFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), ListFragment.OnFragmentInteractionListener,
+        DetailFragment.OnFragmentInteractionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        UpdaterSyncAdapter.initializeSyncAdapter(this)
+        //UpdaterSyncAdapter.configurePeriodicSync(this, 5, 5)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -28,8 +32,15 @@ class MainActivity : AppCompatActivity(), ListFragment.OnFragmentInteractionList
                 listFragment.switchToNetwork()
             }
         }
-
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.refresh) {
+            UpdaterSyncAdapter.syncImmediately(this)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onFragmentInteraction(uri: Uri) = Unit
