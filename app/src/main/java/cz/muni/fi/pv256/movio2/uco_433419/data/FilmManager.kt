@@ -52,12 +52,13 @@ class FilmManager(context: Context) {
                 null, null)
         if (cursor != null && cursor.moveToFirst()) {
             val films = arrayListOf<Film>()
-            cursor.use { cursor1 ->
-                while (!cursor1.isAfterLast) {
-                    films.add(getFilm(cursor1))
-                    cursor1.moveToNext()
+            cursor.use {
+                while (!it.isAfterLast) {
+                    films.add(getFilm(it))
+                    it.moveToNext()
                 }
             }
+            cursor.close()
             return films
         }
 

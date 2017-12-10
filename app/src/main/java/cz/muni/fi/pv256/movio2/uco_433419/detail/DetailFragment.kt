@@ -49,7 +49,9 @@ class DetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.hide()
+        if (getString(R.string.layout) != "large-land") {
+            (activity as AppCompatActivity).supportActionBar?.hide()
+        }
     }
 
     override fun onAttach(context: Context?) {

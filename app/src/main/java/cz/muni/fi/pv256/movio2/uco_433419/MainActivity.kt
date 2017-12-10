@@ -28,7 +28,8 @@ class MainActivity : AppCompatActivity(), ListFragment.OnFragmentInteractionList
         val item = menu?.findItem(R.id.myswitch)
         item?.setActionView(R.layout.switch_layout)
         (item?.actionView?.findViewById(R.id.switchForActionBar) as SwitchCompat).setOnCheckedChangeListener { _, isChecked ->
-            val listFragment = supportFragmentManager.findFragmentById(R.id.listFragment) as ListFragment
+            val listFragment = (supportFragmentManager.findFragmentById(R.id.listFragment) ?:
+                    supportFragmentManager.findFragmentById(R.id.listFragmentTablet)) as ListFragment
             if (isChecked) {
                 listFragment.switchToDatabase()
             } else {

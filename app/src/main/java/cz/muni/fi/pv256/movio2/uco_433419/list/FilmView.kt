@@ -27,7 +27,7 @@ class FilmView(context: Context, attrs: AttributeSet) : ConstraintLayout(context
                 .load("https://image.tmdb.org/t/p/w500" +
                         film.poster_path)
                 .into(filmImage)
-        filmRating.text = film.popularity.toString()
+        filmRating.text = String.format("%.2f", film.popularity)
 //        val semitransparentColor = getColorFromResource(bitmap, 0.75f)
 //        val solidColor = getColorFromResource(bitmap, 1f)
 //        val transparentColor = getColorFromResource(bitmap, 0f)
