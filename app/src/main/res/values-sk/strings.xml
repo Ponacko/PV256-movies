@@ -9,4 +9,7 @@
 	<string name="notification_error">Nastala chyba pri sťahovaní dát.</string>
 	<string name="notification_title">Filmy</string>
 	<string name="notification_successful">Dáta boli úspešne stiahnuté.</string>
+	<string name="saved">Uložené</string>
+	<string name="film_image">Obrázok filmu</string>
+	<string name="film_description">Popis filmu</string>
 </resources>

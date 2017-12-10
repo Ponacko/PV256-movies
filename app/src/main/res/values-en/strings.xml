@@ -9,4 +9,7 @@
 	<string name="notification_error">There was an error while downloading data.</string>
 	<string name="notification_title">Films</string>
 	<string name="notification_successful">Data was downloaded successfully.</string>
+	<string name="film_image">Film image</string>
+	<string name="film_description">Film description</string>
+	<string name="saved">Saved</string>
 </resources>

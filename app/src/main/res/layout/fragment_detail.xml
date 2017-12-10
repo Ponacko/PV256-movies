@@ -53,7 +53,7 @@
 			android:layout_height="wrap_content"
 			android:textSize="28sp"
 			android:lineSpacingExtra="8dp"
-			android:text="Film description"
+			android:text="@string/film_description"
 			android:padding="20dp" />
 	</android.support.v4.widget.NestedScrollView>
 
