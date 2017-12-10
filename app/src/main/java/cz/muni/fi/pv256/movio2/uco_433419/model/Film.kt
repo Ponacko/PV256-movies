@@ -4,13 +4,14 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Film(var id: Long, original_title: String, var release_date: String, var popularity: Float,
-           var poster_path: String, var backdrop_path: String) : ListItem(original_title), Parcelable {
+           var poster_path: String, var backdrop_path: String, var overview: String) : ListItem(original_title), Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readLong(),
             parcel.readString(),
             parcel.readString(),
             parcel.readFloat(),
+            parcel.readString(),
             parcel.readString(),
             parcel.readString())
 
@@ -23,6 +24,7 @@ class Film(var id: Long, original_title: String, var release_date: String, var p
         dest?.writeFloat(popularity)
         dest?.writeString(poster_path ?: "poster_path")
         dest?.writeString(backdrop_path ?: "poster_path")
+        dest?.writeString(overview)
 
     }
 

@@ -17,9 +17,11 @@ class FilmManager(context: Context) {
     val COL_FILM_POPULARITY = 3
     val COL_FILM_POSTER_PATH = 4
     val COL_FILM_BACKDROP_PATH = 5
+    val COL_FILM_OVERVIEW = 6
     private val FILM_COLUMNS = arrayOf(FilmEntry._ID, FilmEntry.COLUMN_ORIGINAL_TITLE_TEXT,
             FilmEntry.COLUMN_RELEASE_DATE_TEXT, FilmEntry.COLUMN_POPULARITY_TEXT,
-            FilmEntry.COLUMN_POSTER_PATH_TEXT, FilmEntry.COLUMN_BACKDROP_PATH_TEXT)
+            FilmEntry.COLUMN_POSTER_PATH_TEXT, FilmEntry.COLUMN_BACKDROP_PATH_TEXT,
+            FilmEntry.COLUMN_OVERVIEW_TEXT)
 
     private val LOCAL_DATE_FORMAT = "yyyyMMdd"
 
@@ -90,6 +92,7 @@ class FilmManager(context: Context) {
         values.put(FilmEntry.COLUMN_POPULARITY_TEXT, film.popularity)
         values.put(FilmEntry.COLUMN_POSTER_PATH_TEXT, film.poster_path)
         values.put(FilmEntry.COLUMN_BACKDROP_PATH_TEXT, film.backdrop_path)
+        values.put(FilmEntry.COLUMN_OVERVIEW_TEXT, film.overview)
 
         return values
     }
@@ -101,7 +104,8 @@ class FilmManager(context: Context) {
                 cursor.getString(COL_FILM_RELEASE_DATE),
                 cursor.getFloat(COL_FILM_POPULARITY),
                 cursor.getString(COL_FILM_POSTER_PATH),
-                cursor.getString(COL_FILM_BACKDROP_PATH)
+                cursor.getString(COL_FILM_BACKDROP_PATH),
+                cursor.getString(COL_FILM_OVERVIEW)
         )
         film.id = cursor.getLong(COL_FILM_ID)
         return film

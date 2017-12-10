@@ -49,6 +49,7 @@ class FilmEntry : BaseColumns {
         val COLUMN_POPULARITY_TEXT = "popularity"
         val COLUMN_POSTER_PATH_TEXT = "poster_path"
         val COLUMN_BACKDROP_PATH_TEXT = "backdrop_path"
+        val COLUMN_OVERVIEW_TEXT = "overview"
 
         fun buildFilmUri(id: Long): Uri = ContentUris.withAppendedId(CONTENT_URI, id)
     }
