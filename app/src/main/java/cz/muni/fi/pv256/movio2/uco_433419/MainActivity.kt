@@ -18,7 +18,8 @@ class MainActivity : AppCompatActivity(), ListFragment.OnFragmentInteractionList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         UpdaterSyncAdapter.initializeSyncAdapter(this)
-        //UpdaterSyncAdapter.configurePeriodicSync(this, 5, 5)
+        UpdaterSyncAdapter.configurePeriodicSync(this, UpdaterSyncAdapter.SYNC_INTERVAL,
+                UpdaterSyncAdapter.SYNC_FLEXTIME)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

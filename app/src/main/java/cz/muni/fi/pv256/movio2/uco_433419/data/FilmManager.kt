@@ -33,9 +33,8 @@ class FilmManager(context: Context) {
         if (film == null) {
             throw IllegalStateException("film cannot be null")
         }
-        film.id = ContentUris.parseId(context.contentResolver.insert(FilmEntry.CONTENT_URI,
+        return ContentUris.parseId(context.contentResolver.insert(FilmEntry.CONTENT_URI,
                 prepareFilmValues(film)))
-        return film.id
     }
 
     fun containsFilm(film: Film): Boolean {
@@ -65,16 +64,13 @@ class FilmManager(context: Context) {
 
     fun updateFilm(film: Film?) {
         checkNulls(film)
-        context.contentResolver.update(FilmEntry.CONTENT_URI, prepareFilmValues(film!!), WHERE_NAME_AND_DATE,
-                arrayOf(film.original_title, film.release_date))
+        context.contentResolver.update(FilmEntry.CONTENT_URI, prepareFilmValues(film!!), WHERE_ID,
+                arrayOf(film.id.toString()))
     }
 
     private fun checkNulls(film: Film?) {
         if (film == null) {
             throw NullPointerException("film == null")
-        }
-        if (film.id == null) {
-            throw IllegalStateException("film id cannot be null")
         }
     }
 
@@ -88,6 +84,7 @@ class FilmManager(context: Context) {
 
     private fun prepareFilmValues(film: Film): ContentValues {
         val values = ContentValues()
+        values.put(FilmEntry._ID, film.id)
         values.put(FilmEntry.COLUMN_ORIGINAL_TITLE_TEXT, film.original_title)
         values.put(FilmEntry.COLUMN_RELEASE_DATE_TEXT, film.release_date)
         values.put(FilmEntry.COLUMN_POPULARITY_TEXT, film.popularity)
@@ -99,6 +96,7 @@ class FilmManager(context: Context) {
 
     private fun getFilm(cursor: Cursor): Film {
         val film = Film(
+                cursor.getLong(COL_FILM_ID),
                 cursor.getString(COL_FILM_ORIGINAL_TITLE),
                 cursor.getString(COL_FILM_RELEASE_DATE),
                 cursor.getFloat(COL_FILM_POPULARITY),

@@ -7,31 +7,50 @@ import android.os.Bundle
 import cz.muni.fi.pv256.movio2.uco_433419.R
 import cz.muni.fi.pv256.movio2.uco_433419.data.CONTENT_AUTHORITY
 import cz.muni.fi.pv256.movio2.uco_433419.data.FilmManager
-
+import cz.muni.fi.pv256.movio2.uco_433419.download.DiscoverService
+import cz.muni.fi.pv256.movio2.uco_433419.model.Film
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * @author Tomáš Stolárik <tomas.stolarik@dactylgroup.com>
  */
 class UpdaterSyncAdapter(context: Context, autoInitialize: Boolean) : AbstractThreadedSyncAdapter(context, autoInitialize) {
 
-    override fun onPerformSync(account: Account, extras: Bundle, authority: String, provider: ContentProviderClient, syncResult: SyncResult) {
-        try {
-            val manager = FilmManager(context)
-            val films = manager.getFilms()
-            for (film in films) {
-                film.popularity += 1
-                manager.updateFilm(film)
-            }
+    override fun onPerformSync(account: Account, extras: Bundle, authority: String, provider: ContentProviderClient, syncResult: SyncResult) =
+            try {
+                val manager = FilmManager(context)
+                val retrofit = Retrofit.Builder()
+                        .baseUrl("https://api.themoviedb.org/3/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+                val service = retrofit.create<DiscoverService>(DiscoverService::class.java)
+                val films = manager.getFilms()
+                films.map { service.getFilm(it.id) }
+                        .forEach {
+                            it.enqueue(object : Callback<Film> {
+                                override fun onFailure(call: Call<Film>?, t: Throwable?) = Unit
 
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+                                override fun onResponse(call: Call<Film>?, response: Response<Film>?) {
+                                    if (response?.body() != null) {
+                                        val downloadedFilm = response.body()
+                                        manager.updateFilm(downloadedFilm)
+                                    }
+                                }
+                            })
+                        }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
     companion object {
 
         // Interval at which to sync with the server, in seconds.
-        val SYNC_INTERVAL = 5 //day
+        val SYNC_INTERVAL = 60 * 60 * 24 //day
         val SYNC_FLEXTIME = SYNC_INTERVAL / 3
 
         /**

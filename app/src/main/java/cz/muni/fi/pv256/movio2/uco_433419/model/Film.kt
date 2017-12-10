@@ -3,11 +3,11 @@ package cz.muni.fi.pv256.movio2.uco_433419.model
 import android.os.Parcel
 import android.os.Parcelable
 
-class Film(original_title: String, var release_date: String, var popularity: Float,
+class Film(var id: Long, original_title: String, var release_date: String, var popularity: Float,
            var poster_path: String, var backdrop_path: String) : ListItem(original_title), Parcelable {
-    var id: Long? = null
 
     constructor(parcel: Parcel) : this(
+            parcel.readLong(),
             parcel.readString(),
             parcel.readString(),
             parcel.readFloat(),
@@ -17,6 +17,7 @@ class Film(original_title: String, var release_date: String, var popularity: Flo
     override fun describeContents(): Int = 0
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
+        dest?.writeLong(id)
         dest?.writeString(original_title)
         dest?.writeString(release_date)
         dest?.writeFloat(popularity)
