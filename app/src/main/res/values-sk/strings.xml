@@ -12,4 +12,6 @@
 	<string name="saved">Uložené</string>
 	<string name="film_image">Obrázok filmu</string>
 	<string name="film_description">Popis filmu</string>
+	<string name="layout">portrait</string>
+	<string name="account_type">AccountAuthenticator</string>
 </resources>

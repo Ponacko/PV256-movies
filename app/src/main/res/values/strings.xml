@@ -1,7 +1,7 @@
 <resources>
 
 	<string name="layout">portrait</string>
-	<string name="content_authority">cz.muni.fi.pv256.movio2.uco_433419</string>
+	<string name="content_authority" translatable="false">cz.muni.fi.pv256.movio2.uco_433419</string>
 	<string name="account_type">AccountAuthenticator</string>
 	<string name="app_name">Films</string>
 	<string name="film_name">Film name</string>
