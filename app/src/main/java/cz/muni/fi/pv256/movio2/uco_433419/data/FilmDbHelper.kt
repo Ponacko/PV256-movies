@@ -17,7 +17,8 @@ class FilmDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                 FilmEntry.COLUMN_BACKDROP_PATH_TEXT + " TEXT," +
                 FilmEntry.COLUMN_POPULARITY_TEXT + " TEXT," +
                 FilmEntry.COLUMN_POSTER_PATH_TEXT + " TEXT," +
-                FilmEntry.COLUMN_RELEASE_DATE_TEXT + " TEXT);"
+                FilmEntry.COLUMN_RELEASE_DATE_TEXT + " TEXT," +
+                FilmEntry.COLUMN_OVERVIEW_TEXT + " TEXT);"
         db.execSQL(SQL_CREATE_LOCATION_TABLE)
     }
 

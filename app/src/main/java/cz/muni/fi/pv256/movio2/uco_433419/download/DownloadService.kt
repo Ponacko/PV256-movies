@@ -1,10 +1,15 @@
-package cz.muni.fi.pv256.movio2.uco_433419
+package cz.muni.fi.pv256.movio2.uco_433419.download
 
 import android.app.IntentService
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.support.v4.app.NotificationCompat
+import cz.muni.fi.pv256.movio2.uco_433419.ACTION_DOWNLOAD_DATA
+import cz.muni.fi.pv256.movio2.uco_433419.MainActivity
+import cz.muni.fi.pv256.movio2.uco_433419.R
+import cz.muni.fi.pv256.movio2.uco_433419.model.Film
+import cz.muni.fi.pv256.movio2.uco_433419.model.FilmResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

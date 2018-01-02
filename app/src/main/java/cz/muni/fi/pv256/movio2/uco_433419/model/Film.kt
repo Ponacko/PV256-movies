@@ -1,31 +1,33 @@
-package cz.muni.fi.pv256.movio2.uco_433419
+package cz.muni.fi.pv256.movio2.uco_433419.model
 
 import android.os.Parcel
 import android.os.Parcelable
 
-
-class Film(original_title: String, var release_date: String, var popularity: Float,
-           var poster_path: String, var backdrop_path: String) : ListItem(original_title), Parcelable {
-    var id: Long? = null
+class Film(var id: Long, original_title: String, var release_date: String, var popularity: Float,
+           var poster_path: String, var backdrop_path: String, var overview: String) : ListItem(original_title), Parcelable {
 
 
     override val type = 0
 
     constructor(parcel: Parcel) : this(
+            parcel.readLong(),
             parcel.readString(),
             parcel.readString(),
             parcel.readFloat(),
+            parcel.readString(),
             parcel.readString(),
             parcel.readString())
 
     override fun describeContents(): Int = 0
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
+        dest?.writeLong(id)
         dest?.writeString(original_title)
         dest?.writeString(release_date)
         dest?.writeFloat(popularity)
         dest?.writeString(poster_path ?: "poster_path")
         dest?.writeString(backdrop_path ?: "poster_path")
+        dest?.writeString(overview)
 
     }
 

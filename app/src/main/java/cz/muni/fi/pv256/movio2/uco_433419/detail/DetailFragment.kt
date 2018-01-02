@@ -1,14 +1,17 @@
-package cz.muni.fi.pv256.movio2.uco_433419
+package cz.muni.fi.pv256.movio2.uco_433419.detail
 
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
+import cz.muni.fi.pv256.movio2.uco_433419.R
 import cz.muni.fi.pv256.movio2.uco_433419.data.FilmManager
+import cz.muni.fi.pv256.movio2.uco_433419.model.Film
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.text.SimpleDateFormat
 
@@ -26,7 +29,7 @@ class DetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
-
+    private lateinit var manager: FilmManager
     private var mListener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +49,13 @@ class DetailFragment : Fragment() {
         }
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (getString(R.string.layout) != "large-land") {
+            (activity as AppCompatActivity).supportActionBar?.hide()
+        }
+    }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
@@ -55,15 +65,13 @@ class DetailFragment : Fragment() {
         }
     }
 
-
-    private lateinit var manager: FilmManager
-
     fun setFilmProperties(film: Film) {
 
         val parser = SimpleDateFormat("yyyy-MM-dd")
         val formatter = SimpleDateFormat("dd.MM.")
         val date = formatter.format(parser.parse(film.release_date))
-        titleText.text = "${film.original_title} (${date})"
+        titleText.title = "${film.original_title} (${date})"
+        filmDescription.text = film.overview
         Picasso.with(context)
                 .load("https://image.tmdb.org/t/p/w500" +
                         film.backdrop_path).into(filmImage)

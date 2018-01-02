@@ -10,11 +10,11 @@ import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
 
-val CONTENT_AUTHORITY = "cz.muni.fi.pv256.movio2.uco_433419"
+const val CONTENT_AUTHORITY = "cz.muni.fi.pv256.movio2.uco_433419"
 val BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY)!!
-val PATH_WORK_TIME = "film"
+const val PATH_WORK_TIME = "film"
 
-val DATE_FORMAT = "yyyyMMddHHmm"
+const val DATE_FORMAT = "yyyyMMddHHmm"
 
 /**
  * Converts Date class to a string representation, used for easy comparison and database
@@ -49,6 +49,7 @@ class FilmEntry : BaseColumns {
         val COLUMN_POPULARITY_TEXT = "popularity"
         val COLUMN_POSTER_PATH_TEXT = "poster_path"
         val COLUMN_BACKDROP_PATH_TEXT = "backdrop_path"
+        val COLUMN_OVERVIEW_TEXT = "overview"
 
         fun buildFilmUri(id: Long): Uri = ContentUris.withAppendedId(CONTENT_URI, id)
     }

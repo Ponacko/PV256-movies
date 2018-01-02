@@ -1,15 +1,16 @@
-package cz.muni.fi.pv256.movio2.uco_433419
+package cz.muni.fi.pv256.movio2.uco_433419.detail
 
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import cz.muni.fi.pv256.movio2.uco_433419.R
 import cz.muni.fi.pv256.movio2.uco_433419.R.id.detailFragment
 
 
 /**
- * Created by Tomas on 22. 10. 2017.
+ * @author Tomáš Stolárik <tomas.stolarik@dactylgroup.com>
  */
-class DetailActivity : AppCompatActivity(), DetailFragment.OnFragmentInteractionListener{
+class DetailActivity : AppCompatActivity(), DetailFragment.OnFragmentInteractionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
