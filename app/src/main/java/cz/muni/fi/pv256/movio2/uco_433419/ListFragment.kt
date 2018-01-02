@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_list.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -26,6 +28,8 @@ class ListFragment : android.support.v4.app.Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
 
+    private var filmTask: FilmTask? = FilmTask(this)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
             inflater.inflate(R.layout.fragment_list, container, false)
@@ -39,34 +43,59 @@ class ListFragment : android.support.v4.app.Fragment() {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    fun addResponseToFilmList(response: FilmResponse) {
+        val filmList = response.results as ArrayList<Film>
+        val cal = Calendar.getInstance()
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        val today = formatter.format(cal.time)
+        val upcoming = filmList.filter { film -> film.release_date > today }
+        val current = filmList.filterNot { film -> film.release_date > today }
+        val listItems = arrayListOf<ListItem>()
+                .plus(ListCategory(getString(R.string.category_upcoming)))
+                .plus(upcoming.sortedByDescending { film -> film.release_date })
+                .plus(ListCategory(getString(R.string.category_current)))
+                .plus(current.sortedByDescending { film -> film.release_date }) as ArrayList<ListItem>
 
-
-
-        val filmList = arrayListOf(ListCategory("Sci-fi"),
-                Film("Star Wars", 1977, 3.5f, "sw", "backdrop"),
-                ListCategory("Fantasy"),
-                Film("Lord of the Rings", 2001, 3.0f, "lotr", "backdrop"),
-                Film("Harry Potter", 2001, 4.1f, "hp1", "backdrop"))
-        val adapter = FilmAdapter(filmList, this)
+        val adapter = FilmAdapter(listItems, this)
         list.layoutManager = LinearLayoutManager(context)
-        if (filmList.isEmpty()){
-            list.visibility = View.GONE
-            empty.visibility = View.VISIBLE
+        if (listItems.isEmpty()) {
+            setEmptyScreen()
         }
         list.adapter = adapter
     }
 
+    fun setEmptyScreen() {
+        list.visibility = View.GONE
+        empty.visibility = View.VISIBLE
+    }
+
+    fun setListScreen() {
+        list.visibility = View.VISIBLE
+        empty.visibility = View.GONE
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        list.adapter = FilmAdapter(arrayListOf(), this)
+        filmTask?.execute()
+        //setEmptyScreen()
+
+    }
+
     override fun onDetach() {
         super.onDetach()
+        filmTask?.cancel(true)
         mListener = null
+    }
+
+    fun onTaskFinished() {
+        filmTask = null
     }
 
     fun startFilmDetailActivity(film : Film) {
         if (detailFragmentTablet != null && (detailFragmentTablet as DetailFragment).titleText != null) {
             val detail = detailFragmentTablet as DetailFragment
-            detail.setFilmText(film)
+            detail.setFilmProperties(film)
         } else {
             val intent = Intent(activity, DetailActivity::class.java)
             intent.putExtra("FILM", film)

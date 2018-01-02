@@ -14,7 +14,7 @@ class FilmAdapter(private val dataSet: ArrayList<ListItem>, private val fragment
     override fun onBindViewHolder(holder: FilmViewHolder?, position: Int) {
         val viewType = getItemViewType(position)
         if (viewType == TYPE_CATEGORY){
-            (holder?.view as TextView).text = dataSet[position].title
+            (holder?.view as TextView).text = dataSet[position].original_title
         }
         else {
             (holder?.view as FilmView).setFilmProperties(dataSet[position] as Film)

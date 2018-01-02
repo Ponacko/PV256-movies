@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_detail.*
+import java.text.SimpleDateFormat
 
 
 /**
@@ -36,9 +38,9 @@ class DetailFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
+
             inflater.inflate(R.layout.fragment_detail, container, false)
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         if (mListener != null) {
             mListener!!.onFragmentInteraction(uri)
@@ -54,10 +56,12 @@ class DetailFragment : Fragment() {
         }
     }
 
+
     fun setFilmText(film: Film){
         titleText.text = "${film.title} (${film.releaseDate})"
         filmImage.setImageResource(resources.getIdentifier(film.coverPath,
                 "drawable", context?.packageName))
+
     }
 
     override fun onDetach() {
