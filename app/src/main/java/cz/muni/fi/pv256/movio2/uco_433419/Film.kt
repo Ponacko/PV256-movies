@@ -6,6 +6,7 @@ import android.os.Parcelable
 
 class Film(original_title: String, var release_date: String, var popularity: Float,
            var poster_path: String, var backdrop_path: String) : ListItem(original_title), Parcelable {
+    var id: Long? = null
 
 
     override val type = 0
@@ -26,6 +27,24 @@ class Film(original_title: String, var release_date: String, var popularity: Flo
         dest?.writeString(poster_path ?: "poster_path")
         dest?.writeString(backdrop_path ?: "poster_path")
 
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Film
+
+        if (release_date != other.release_date) return false
+        if (original_title != other.original_title) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = release_date.hashCode()
+        result = 31 * result + original_title.hashCode()
+        return result
     }
 
     companion object CREATOR : Parcelable.Creator<Film> {

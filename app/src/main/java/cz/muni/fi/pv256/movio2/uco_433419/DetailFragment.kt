@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
+import cz.muni.fi.pv256.movio2.uco_433419.data.FilmManager
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.text.SimpleDateFormat
 
@@ -30,10 +31,8 @@ class DetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mParam1 = arguments?.getString(ARG_PARAM1)
-            mParam2 = arguments?.getString(ARG_PARAM2)
-        }
+        mParam1 = arguments?.getString(ARG_PARAM1)
+        mParam2 = arguments?.getString(ARG_PARAM2)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -57,10 +56,39 @@ class DetailFragment : Fragment() {
     }
 
 
-    fun setFilmText(film: Film){
-        titleText.text = "${film.title} (${film.releaseDate})"
-        filmImage.setImageResource(resources.getIdentifier(film.coverPath,
-                "drawable", context?.packageName))
+    private lateinit var manager: FilmManager
+
+    fun setFilmProperties(film: Film) {
+
+        val parser = SimpleDateFormat("yyyy-MM-dd")
+        val formatter = SimpleDateFormat("dd.MM.")
+        val date = formatter.format(parser.parse(film.release_date))
+        titleText.text = "${film.original_title} (${date})"
+        Picasso.with(context)
+                .load("https://image.tmdb.org/t/p/w500" +
+                        film.backdrop_path).into(filmImage)
+        manager = FilmManager(context!!)
+        if (manager.containsFilm(film)) {
+            switchFabState(true, film)
+        } else {
+            switchFabState(false, film)
+        }
+    }
+
+    private fun switchFabState(toAdded: Boolean, film: Film) {
+        if (toAdded) {
+            fab.setImageDrawable(resources.getDrawable(R.drawable.ic_remove_black_24dp))
+            fab.setOnClickListener {
+                manager.deleteFilm(film)
+                switchFabState(false, film)
+            }
+        } else {
+            fab.setImageDrawable(resources.getDrawable(R.drawable.ic_add_black_24dp))
+            fab.setOnClickListener {
+                manager.createFilm(film)
+                switchFabState(true, film)
+            }
+        }
 
     }
 

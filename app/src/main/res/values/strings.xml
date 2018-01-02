@@ -1,4 +1,5 @@
 <resources>
+	<string name="content_authority">cz.muni.fi.pv256.movio2.uco_433419</string>
 	<string name="app_name">Films</string>
 	<string name="film_name">Film name</string>
 	<string name="film_title">Film title</string>
@@ -8,4 +9,5 @@
 	<string name="notification_error">There was an error while downloading data.</string>
 	<string name="notification_title">Films</string>
 	<string name="notification_successful">Data was downloaded successfully.</string>
+	<string name="saved">Saved</string>
 </resources>
