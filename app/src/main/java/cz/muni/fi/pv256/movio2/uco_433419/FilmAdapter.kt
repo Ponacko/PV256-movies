@@ -38,12 +38,7 @@ class FilmAdapter(private val dataSet: ArrayList<ListItem>, private val fragment
 
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (dataSet[position] is Film)
-            TYPE_FILM
-        else
-            TYPE_CATEGORY
-    }
+    override fun getItemViewType(position: Int): Int = dataSet[position].type
 
     inner class FilmViewHolder(var view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
