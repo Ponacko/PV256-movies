@@ -6,4 +6,7 @@
 	<string name="no_data">Dáta nie sú dostupné.</string>
 	<string name="category_upcoming">Nadchádzajúce</string>
 	<string name="category_current">Súčasné</string>
+	<string name="notification_error">Nastala chyba pri sťahovaní dát.</string>
+	<string name="notification_title">Filmy</string>
+	<string name="notification_successful">Dáta boli úspešne stiahnuté.</string>
 </resources>

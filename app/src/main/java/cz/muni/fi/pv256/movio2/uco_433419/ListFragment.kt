@@ -1,7 +1,9 @@
 package cz.muni.fi.pv256.movio2.uco_433419
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -28,6 +30,7 @@ class ListFragment : android.support.v4.app.Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
 
+
     private var filmTask: FilmTask? = FilmTask(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +46,7 @@ class ListFragment : android.support.v4.app.Fragment() {
         }
     }
 
-    fun addResponseToFilmList(response: FilmResponse) {
-        val filmList = response.results as ArrayList<Film>
+    private fun addListToAdapter(filmList: ArrayList<Film>) {
         val cal = Calendar.getInstance()
         val formatter = SimpleDateFormat("yyyy-MM-dd")
         val today = formatter.format(cal.time)
@@ -64,7 +66,7 @@ class ListFragment : android.support.v4.app.Fragment() {
         list.adapter = adapter
     }
 
-    fun setEmptyScreen() {
+    private fun setEmptyScreen() {
         list.visibility = View.GONE
         empty.visibility = View.VISIBLE
     }
@@ -77,22 +79,27 @@ class ListFragment : android.support.v4.app.Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         list.adapter = FilmAdapter(arrayListOf(), this)
-        filmTask?.execute()
-        //setEmptyScreen()
+
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) =
+                    processResults(intent.getParcelableArrayListExtra("result"))
+        }
+        val intentFilter = IntentFilter(ACTION_DOWNLOAD_DATA)
+        context?.registerReceiver(receiver, intentFilter)
+        val intent = Intent(context, DownloadService::class.java)
+        context?.startService(intent)
 
     }
 
     override fun onDetach() {
         super.onDetach()
-        filmTask?.cancel(true)
         mListener = null
     }
 
     fun onTaskFinished() {
-        filmTask = null
     }
 
-    fun startFilmDetailActivity(film : Film) {
+    fun startFilmDetailActivity(film: Film) {
         if (detailFragmentTablet != null && (detailFragmentTablet as DetailFragment).titleText != null) {
             val detail = detailFragmentTablet as DetailFragment
             detail.setFilmProperties(film)
@@ -102,6 +109,15 @@ class ListFragment : android.support.v4.app.Fragment() {
             startActivity(intent)
         }
     }
+
+    private fun processResults(result: ArrayList<Film>) {
+        if (result.isNotEmpty()) {
+            addListToAdapter(result)
+        } else {
+            setEmptyScreen()
+        }
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

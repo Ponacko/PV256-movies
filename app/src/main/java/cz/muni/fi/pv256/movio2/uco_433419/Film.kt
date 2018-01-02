@@ -10,7 +10,6 @@ class Film(original_title: String, var release_date: String, var popularity: Flo
 
     override val type = 0
 
-
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
