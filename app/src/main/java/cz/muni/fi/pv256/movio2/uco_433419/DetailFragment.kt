@@ -30,12 +30,15 @@ class DetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mParam1 = arguments?.getString(ARG_PARAM1)
-        mParam2 = arguments?.getString(ARG_PARAM2)
-
+        if (arguments != null) {
+            mParam1 = arguments?.getString(ARG_PARAM1)
+            mParam2 = arguments?.getString(ARG_PARAM2)
+        }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
+
             inflater.inflate(R.layout.fragment_detail, container, false)
 
     fun onButtonPressed(uri: Uri) {
@@ -53,15 +56,12 @@ class DetailFragment : Fragment() {
         }
     }
 
-    fun setFilmProperties(film: Film) {
 
-        val parser = SimpleDateFormat("yyyy-MM-dd")
-        val formatter = SimpleDateFormat("dd.MM.")
-        val date = formatter.format(parser.parse(film.release_date))
-        titleText.text = "${film.original_title} (${date})"
-        Picasso.with(context)
-                .load("https://image.tmdb.org/t/p/w500" +
-                        film.backdrop_path).into(filmImage)
+    fun setFilmText(film: Film){
+        titleText.text = "${film.title} (${film.releaseDate})"
+        filmImage.setImageResource(resources.getIdentifier(film.coverPath,
+                "drawable", context?.packageName))
+
     }
 
     override fun onDetach() {
