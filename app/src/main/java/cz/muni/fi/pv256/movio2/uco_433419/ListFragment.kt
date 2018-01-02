@@ -31,6 +31,10 @@ import kotlin.collections.ArrayList
 class ListFragment : android.support.v4.app.Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
+
+
+    private var filmTask: FilmTask? = FilmTask(this)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
             inflater.inflate(R.layout.fragment_list, container, false)

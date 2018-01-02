@@ -3,9 +3,13 @@ package cz.muni.fi.pv256.movio2.uco_433419
 import android.os.Parcel
 import android.os.Parcelable
 
+
 class Film(original_title: String, var release_date: String, var popularity: Float,
            var poster_path: String, var backdrop_path: String) : ListItem(original_title), Parcelable {
     var id: Long? = null
+
+
+    override val type = 0
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),

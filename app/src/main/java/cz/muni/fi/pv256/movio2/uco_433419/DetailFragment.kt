@@ -35,7 +35,9 @@ class DetailFragment : Fragment() {
         mParam2 = arguments?.getString(ARG_PARAM2)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? =// Inflate the layout for this fragment
+
             inflater.inflate(R.layout.fragment_detail, container, false)
 
     fun onButtonPressed(uri: Uri) {
@@ -52,6 +54,7 @@ class DetailFragment : Fragment() {
             throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
         }
     }
+
 
     private lateinit var manager: FilmManager
 
@@ -86,6 +89,7 @@ class DetailFragment : Fragment() {
                 switchFabState(true, film)
             }
         }
+
     }
 
     override fun onDetach() {
